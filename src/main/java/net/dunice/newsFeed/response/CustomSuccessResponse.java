@@ -6,13 +6,13 @@ import net.dunice.newsFeed.dto.LoginUserDto;
 
 @Data
 @Accessors(chain = true)
-public class CustomSuccessResponse {
+public class CustomSuccessResponse{
 
     LoginUserDto data;
     int statusCode;
     boolean success;
 
-    public static CustomSuccessResponse getSuccessResponse(LoginUserDto loginUserDto){
+    public static <T> CustomSuccessResponse getSuccessResponse(LoginUserDto loginUserDto){
         return new CustomSuccessResponse().setData(loginUserDto)
                                             .setStatusCode(1)
                                             .setSuccess(true);

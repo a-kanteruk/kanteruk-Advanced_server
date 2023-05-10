@@ -1,2 +1,22 @@
-package net.dunice.newsFeed.security.jwt;public class JwtUserFactory {
+package net.dunice.newsFeed.security.jwt;
+
+import lombok.NoArgsConstructor;
+import net.dunice.newsFeed.models.Role;
+import net.dunice.newsFeed.models.UserEntity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+@NoArgsConstructor
+public class JwtUserFactory {
+
+    public static JwtUser create(UserEntity userEntity) {
+        return new JwtUser(userEntity.getId(), userEntity.getAvatar(),
+                                         userEntity.getEmail(),
+                                         userEntity.getName(),
+                                         userEntity.getPassword(),
+                                         getAuthorities());
+    }
+
+    private static SimpleGrantedAuthority getAuthorities(){
+        return new SimpleGrantedAuthority(Role.USER.getAuthority());
+    }
 }

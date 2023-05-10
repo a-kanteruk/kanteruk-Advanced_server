@@ -1,15 +1,26 @@
 package net.dunice.newsFeed.dto;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
+import net.dunice.newsFeed.models.UserEntity;
 
-import javax.validation.constraints.Email;
+import java.util.UUID;
 
 @Data
+@Accessors(chain = true)
 public class LoginUserDto {
-    String avatar;
-    String email;
-    String id;
-    String name;
-    String role = "USER";
-    String token;
+    private String avatar;
+    private String email;
+    private UUID id;
+    private String name;
+    private String role;
+    private String token;
+
+    public static LoginUserDto getLoginUserDto(UserEntity userEntity){
+        return new LoginUserDto().setAvatar(userEntity.getAvatar())
+                                .setEmail(userEntity.getEmail())
+                                .setId(userEntity.getId())
+                                .setName(userEntity.getName())
+                                .setRole(userEntity.getRole());
+    }
 }
