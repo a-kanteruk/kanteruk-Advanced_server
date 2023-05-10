@@ -1,7 +1,6 @@
 package net.dunice.newsFeed.service;
 
 
-
 import net.dunice.newsFeed.dto.AuthDto;
 import net.dunice.newsFeed.dto.LoginUserDto;
 import net.dunice.newsFeed.dto.RegisterUserDto;
@@ -18,14 +17,22 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService implements AuthServiceInterface{
-    @Autowired
+
     private JwtTokenProvider jwtTokenProvider;
-    @Autowired
     private AuthenticationManager authenticationManager;
-    @Autowired
     private UserRepository userRepository;
-    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    public AuthService(JwtTokenProvider jwtTokenProvider,
+                       AuthenticationManager authenticationManager,
+                       UserRepository userRepository,
+                       BCryptPasswordEncoder passwordEncoder) {
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.authenticationManager = authenticationManager;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public CustomSuccessResponse registry(RegisterUserDto registerUserDto){
@@ -37,16 +44,4 @@ public class AuthService implements AuthServiceInterface{
         return CustomSuccessResponse.getSuccessResponse(new LoginUserDto());
     }
 
-
-    @Override
-    public CustomSuccessResponse login(AuthDto authDto) {
-        String email = authDto.getEmail();
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, authDto.getPassword()));
-        LoginUserDto result = LoginUserDto.getLoginUserDto(userRepository
-                                                            .findByEmail(email)
-                                                             .orElseThrow());
-
-        result.setToken(jwtTokenProvider.createToken(email, Role.USER));
-        return CustomSuccessResponse.getSuccessResponse(result);
-    }
 }

@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -31,9 +32,8 @@ public class JwtTokenProvider {
     UserDetailsService userDetailsService;
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder(){
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return  passwordEncoder;
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
     }
     @PostConstruct
     protected void init(){

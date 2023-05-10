@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.UUID;
 
 @Data
-public class JwtUser implements UserDetails {
+public class CustomUserDetails implements UserDetails {
     private final UUID id;
     private final String avatar;
     private final String email;
@@ -17,7 +17,7 @@ public class JwtUser implements UserDetails {
     private final String password;
     private final String role;
 
-    public JwtUser(UUID id, String avatar, String email, String name, String password, SimpleGrantedAuthority role) {
+    public CustomUserDetails(UUID id, String avatar, String email, String name, String password, SimpleGrantedAuthority role) {
         this.id = id;
         this.avatar = avatar;
         this.email = email;

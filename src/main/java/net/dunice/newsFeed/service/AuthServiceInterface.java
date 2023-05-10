@@ -6,5 +6,4 @@ import net.dunice.newsFeed.response.CustomSuccessResponse;
 
 public interface AuthServiceInterface {
     CustomSuccessResponse registry(RegisterUserDto registerUserDto);
-    CustomSuccessResponse login(AuthDto authDto);
 }

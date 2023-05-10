@@ -2,7 +2,7 @@ package net.dunice.newsFeed.security;
 
 import net.dunice.newsFeed.models.UserEntity;
 import net.dunice.newsFeed.repository.UserRepository;
-import net.dunice.newsFeed.security.jwt.JwtUser;
+import net.dunice.newsFeed.security.jwt.CustomUserDetails;
 import net.dunice.newsFeed.security.jwt.JwtUserFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +22,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         if (userEntity == null){
             throw new UsernameNotFoundException("No this username");
         }
-        JwtUser jwtUser = JwtUserFactory.create(userEntity);
-        return jwtUser;
+        CustomUserDetails customUserDetails = JwtUserFactory.create(userEntity);
+        return customUserDetails;
     }
 }

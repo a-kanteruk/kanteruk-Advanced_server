@@ -1,7 +1,6 @@
 package net.dunice.newsFeed.dto;
 
 import lombok.Data;
-import net.dunice.newsFeed.models.Role;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

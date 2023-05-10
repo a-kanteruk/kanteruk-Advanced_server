@@ -8,8 +8,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 @NoArgsConstructor
 public class JwtUserFactory {
 
-    public static JwtUser create(UserEntity userEntity) {
-        return new JwtUser(userEntity.getId(), userEntity.getAvatar(),
+    public static CustomUserDetails create(UserEntity userEntity) {
+        return new CustomUserDetails(userEntity.getId(),
+                                         userEntity.getAvatar(),
                                          userEntity.getEmail(),
                                          userEntity.getName(),
                                          userEntity.getPassword(),

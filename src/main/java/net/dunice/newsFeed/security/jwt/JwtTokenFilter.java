@@ -14,12 +14,10 @@ import java.io.IOException;
 
 public class JwtTokenFilter extends GenericFilterBean {
     private JwtTokenProvider jwtTokenProvider;
-
     @Autowired
     public JwtTokenFilter(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
     }
-
     @Override
     public void doFilter(ServletRequest servletRequest,
                          ServletResponse servletResponse,
