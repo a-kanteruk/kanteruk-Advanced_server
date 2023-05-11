@@ -37,8 +37,8 @@ public enum ErrorCodes {
     REQUEST_IS_NOT_MULTIPART(22, "Current request is not a multipart request"),
     MAX_UPLOAD_SIZE_EXCEEDED(23, "Maximum upload size exceeded"),
     USER_AVATAR_NOT_NULL(24, "user avatar mustn't be null"),
-    PASSWORD_NOT_VALID(25, "password not valid"),
-    PASSWORD_NOT_NULL(26, "user password mustn't be null"),
+    PASSWORD_NOT_VALID(25, ValidationConstants.PASSWORD_NOT_VALID),
+    PASSWORD_NOT_NULL(26, ValidationConstants.PASSWORD_NOT_NULL),
     NEWS_NOT_FOUND(27, "news not found"),
     ID_MUST_BE_POSITIVE(29, ValidationConstants.ID_MUST_BE_POSITIVE),
     USER_ALREADY_EXISTS(30, "User already exists"),
@@ -71,5 +71,12 @@ public enum ErrorCodes {
 
     public static Integer getErrorCode(String message) {
         return MAP_CODE.get(message);
+    }
+    public Integer getCode() {
+        return code;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }

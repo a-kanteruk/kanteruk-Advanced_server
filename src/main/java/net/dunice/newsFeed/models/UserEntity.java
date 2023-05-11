@@ -19,20 +19,10 @@ public class UserEntity {
     private UUID id;
     private String avatar;
     @Column(unique = true)
-    @NotBlank
     private String email;
     @Column(unique = true)
-    @NotBlank
     private String name;
-    @NotBlank
     private String password;
     private String role;
 
-    public static UserEntity createUserEntity(RegisterUserDto registerUserDto){
-        return new UserEntity().setAvatar(registerUserDto.getAvatar())
-                .setEmail(registerUserDto.getEmail())
-                .setName(registerUserDto.getName())
-                .setPassword(registerUserDto.getPassword())
-                .setRole(registerUserDto.getRole());
-    }
 }

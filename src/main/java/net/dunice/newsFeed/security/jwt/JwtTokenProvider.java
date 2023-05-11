@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
 import net.dunice.newsFeed.models.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,26 +24,22 @@ import java.util.Base64;
 import java.util.Date;
 
 @Component
+@RequiredArgsConstructor
 public class JwtTokenProvider {
     @Value("${jwt.token.secret}")
     private String secret;
     @Value("${jwt.token.expired}")
     private long validityInMilliseconds;
-    @Autowired
-    UserDetailsService userDetailsService;
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+    private final UserDetailsService userDetailsService;
+
     @PostConstruct
     protected void init(){
         secret = Base64.getEncoder().encodeToString(secret.getBytes());
     }
 
-    public String createToken(String email, Role role){
+    public String createToken(String email){
         Claims claims = Jwts.claims().setSubject(email);
-        claims.put("role", getRoleName());
 
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
