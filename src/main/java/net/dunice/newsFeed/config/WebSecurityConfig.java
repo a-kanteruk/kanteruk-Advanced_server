@@ -2,6 +2,7 @@ package net.dunice.newsFeed.config;
 
 import net.dunice.newsFeed.security.jwt.JwtConfigure;
 import net.dunice.newsFeed.security.jwt.JwtTokenProvider;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,22 +18,22 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         private static final String USER_ENDPOINT = "/v1/auth/login";
-        private static final String USER_ENDPOINT_REGISTRATION = "/v1/auth/registration";
+        private static final String USER_ENDPOINT_REGISTRATION = "/v1/auth/register";
         private final JwtTokenProvider jwtTokenProvider;
 
         @Autowired
-        public WebSecurityConfig(JwtTokenProvider jwtTokenProvider){
+        public WebSecurityConfig(JwtTokenProvider jwtTokenProvider) {
             this.jwtTokenProvider = jwtTokenProvider;
         }
 
         @Bean
         @Override
-        public AuthenticationManager authenticationManagerBean() throws Exception{
+        public AuthenticationManager authenticationManagerBean() throws Exception {
             return super.authenticationManagerBean();
         }
 
         @Bean
-        public PasswordEncoder encode(){
+        public PasswordEncoder encode() {
         return new BCryptPasswordEncoder();
     }
 

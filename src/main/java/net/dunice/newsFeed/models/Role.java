@@ -1,6 +1,7 @@
 package net.dunice.newsFeed.models;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.core.GrantedAuthority;
 
 @RequiredArgsConstructor

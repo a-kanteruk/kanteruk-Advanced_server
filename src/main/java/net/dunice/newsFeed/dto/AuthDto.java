@@ -1,10 +1,11 @@
 package net.dunice.newsFeed.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 import lombok.Data;
 import net.dunice.newsFeed.constants.ValidationConstants;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 @Data
 public class AuthDto {

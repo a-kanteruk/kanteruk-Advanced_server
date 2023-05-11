@@ -1,27 +1,28 @@
 package net.dunice.newsFeed.security.jwt;
 
+import java.util.Base64;
+import java.util.Date;
+
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import net.dunice.newsFeed.constants.ValidationConstants;
+import net.dunice.newsFeed.exceptions.CustomJwtException;
 import net.dunice.newsFeed.models.Role;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Base64;
-import java.util.Date;
 
 @Component
 @RequiredArgsConstructor
@@ -34,11 +35,11 @@ public class JwtTokenProvider {
     private final UserDetailsService userDetailsService;
 
     @PostConstruct
-    protected void init(){
+    protected void init() {
         secret = Base64.getEncoder().encodeToString(secret.getBytes());
     }
 
-    public String createToken(String email){
+    public String createToken(String email) {
         Claims claims = Jwts.claims().setSubject(email);
 
         Date now = new Date();
@@ -50,38 +51,39 @@ public class JwtTokenProvider {
                              .signWith(SignatureAlgorithm.HS512, secret).compact();
     }
 
-    public Authentication getAuthentication(String token){
+    public Authentication getAuthentication(String token) {
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(getUsername(token));
         return new UsernamePasswordAuthenticationToken(userDetails,
                                                         "",
                                                         userDetails.getAuthorities());
     }
 
-    public String getUsername(String token){
+    public String getUsername(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
     }
 
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer_")){
-            return bearerToken.substring(7,bearerToken.length());
+        if (bearerToken != null && bearerToken.startsWith("Bearer_")) {
+            return bearerToken.substring(7, bearerToken.length());
         }
         return null;
     }
 
-    public boolean validateToken(String token){
+    public boolean validateToken(String token) {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
-            if (claims.getBody().getExpiration().before(new Date())){
+            if (claims.getBody().getExpiration().before(new Date())) {
                 return false;
             }
             return true;
-        }catch (JwtException | IllegalArgumentException exception){
-            throw new JwtException("Token is not valid or expire");
+        }
+        catch (JwtException | IllegalArgumentException exception) {
+            throw new CustomJwtException(ValidationConstants.TOKEN_NOT_PROVIDED);
         }
     }
 
-    private String getRoleName(){
+    private String getRoleName() {
         return Role.USER.getAuthority();
     }
 }

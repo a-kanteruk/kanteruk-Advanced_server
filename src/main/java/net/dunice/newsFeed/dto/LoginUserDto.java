@@ -1,8 +1,9 @@
 package net.dunice.newsFeed.dto;
 
+import java.util.UUID;
+
 import lombok.Data;
 
-import java.util.UUID;
 
 @Data
 public class LoginUserDto {

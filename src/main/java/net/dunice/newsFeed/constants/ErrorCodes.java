@@ -11,24 +11,24 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public enum ErrorCodes {
 
-    UNKNOWN(0, "unknown"),
+    UNKNOWN(0, ValidationConstants.UNKNOWN),
     USERNAME_SIZE_NOT_VALID(1, ValidationConstants.USERNAME_SIZE_NOT_VALID),
     ROLE_SIZE_NOT_VALID(2, "role size not valid"),
-    EMAIL_SIZE_NOT_VALID(3, "email size not valid"),
+    EMAIL_SIZE_NOT_VALID(3, ValidationConstants.EMAIL_SIZE_NOT_VALID),
     MUST_NOT_BE_NULL(4, "must not be null"),
     USER_NOT_FOUND(5, "Could not find user"),
-    TOKEN_NOT_PROVIDED(6, "JWT token not provided"),
+    TOKEN_NOT_PROVIDED(6, ValidationConstants.TOKEN_NOT_PROVIDED),
     UNAUTHORISED(7, "unauthorised"),
     USER_EMAIL_NOT_NULL(8, "user email mustn't be null"),
     USER_PASSWORD_NOT_VALID(9, "user password must be more than 6 symbols"),
-    USER_ROLE_NOT_NULL(10, "user role mustn't be null"),
+    USER_ROLE_NOT_NULL(10, ValidationConstants.USER_ROLE_NOT_NULL),
     NEWS_DESCRIPTION_SIZE(11, ValidationConstants.NEWS_DESCRIPTION_SIZE_NOT_VALID),
     NEWS_DESCRIPTION_NOT_NULL(12, ValidationConstants.NEWS_DESCRIPTION_HAS_TO_BE_PRESENT),
     NEWS_TITLE_SIZE(13, "news title size not valid"),
     NEWS_TITLE_NOT_NULL(14, "title has to be present"),
     PARAM_PAGE_NOT_NULL(15, "Required Integer parameter 'page' is not present"),
     PARAM_PER_PAGE_NOT_NULL(16, "Required Integer parameter 'perPage' is not present"),
-    USER_EMAIL_NOT_VALID(17, "user email must be a well-formed email address"),
+    USER_EMAIL_NOT_VALID(17, ValidationConstants.USER_EMAIL_NOT_VALID),
     PAGE_SIZE_NOT_VALID(18, "news page must be greater or equal 1"),
     PER_PAGE_MIN_NOT_VALID(19, "perPage must be greater or equal 1"),
     PER_PAGE_MAX_NOT_VALID(19, "perPage must be less or equal 100"),
@@ -41,7 +41,7 @@ public enum ErrorCodes {
     PASSWORD_NOT_NULL(26, ValidationConstants.PASSWORD_NOT_NULL),
     NEWS_NOT_FOUND(27, "news not found"),
     ID_MUST_BE_POSITIVE(29, ValidationConstants.ID_MUST_BE_POSITIVE),
-    USER_ALREADY_EXISTS(30, "User already exists"),
+    USER_ALREADY_EXISTS(30, ValidationConstants.USER_ALREADY_EXISTS),
     TODO_TEXT_NOT_NULL(31, ValidationConstants.TODO_TEXT_NOT_NULL),
     TODO_TEXT_SIZE_NOT_VALID(32, ValidationConstants.TODO_TEXT_SIZE_NOT_VALID),
     TODO_STATUS_NOT_NULL(33, ValidationConstants.TODO_STATUS_NOT_NULL),
@@ -71,12 +71,5 @@ public enum ErrorCodes {
 
     public static Integer getErrorCode(String message) {
         return MAP_CODE.get(message);
-    }
-    public Integer getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
     }
 }

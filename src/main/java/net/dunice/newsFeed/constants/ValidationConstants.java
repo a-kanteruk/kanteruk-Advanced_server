@@ -9,7 +9,6 @@ public interface ValidationConstants {
     String ID_MUST_BE_POSITIVE = "ID must be grater than zero";
     String REQUIRED_INT_PARAM_PAGE_IS_NOT_PRESENT = "Parameter page mustn't be null";
     String REQUIRED_INT_PARAM_PER_PAGE_IS_NOT_PRESENT = "Parameter perPage mustn't be null";
-    String USERNAME_HAS_TO_BE_PRESENT = "Username mustn't be null";
     String TAGS_NOT_VALID = "Tags invalid";
     String NEWS_IMAGE_HAS_TO_BE_PRESENT = "Image mustn't be null";
     String USER_WITH_THIS_EMAIL_ALREADY_EXIST = "User with this email already exists";
@@ -50,4 +49,6 @@ public interface ValidationConstants {
     String HTTP_MESSAGE_NOT_READABLE_EXCEPTION = "Http request not valid";
     String PASSWORD_NOT_NULL = "user password mustn't be null";
     String USER_ROLE_NOT_NULL = "user role mustn't be null";
+    String UNKNOWN = "unknown";
+    String USER_ALREADY_EXISTS = "User already exist";
 }
