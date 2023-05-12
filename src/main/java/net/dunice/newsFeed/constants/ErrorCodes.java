@@ -35,7 +35,7 @@ public enum ErrorCodes {
     CODE_NOT_NULL(20, "Required String parameter 'code' is not present"),
     EXCEPTION_HANDLER_NOT_PROVIDED(21, "Exception handler not provided"),
     REQUEST_IS_NOT_MULTIPART(22, "Current request is not a multipart request"),
-    MAX_UPLOAD_SIZE_EXCEEDED(23, "Maximum upload size exceeded"),
+    MAX_UPLOAD_SIZE_EXCEEDED(23, ValidationConstants.MAX_UPLOAD_SIZE_EXCEEDED),
     USER_AVATAR_NOT_NULL(24, "user avatar mustn't be null"),
     PASSWORD_NOT_VALID(25, ValidationConstants.PASSWORD_NOT_VALID),
     PASSWORD_NOT_NULL(26, ValidationConstants.PASSWORD_NOT_NULL),

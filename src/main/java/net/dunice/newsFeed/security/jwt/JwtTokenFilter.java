@@ -18,7 +18,6 @@ import org.springframework.web.filter.GenericFilterBean;
 @Component
 @RequiredArgsConstructor
 public class JwtTokenFilter extends GenericFilterBean {
-
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override

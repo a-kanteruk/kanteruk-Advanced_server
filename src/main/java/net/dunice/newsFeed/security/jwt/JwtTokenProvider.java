@@ -43,7 +43,7 @@ public class JwtTokenProvider {
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
 
-        return Jwts.builder().setClaims(claims)
+        return "Bearer " + Jwts.builder().setClaims(claims)
                              .setIssuedAt(now)
                              .setExpiration(validity)
                              .signWith(SignatureAlgorithm.HS512, secret).compact();
@@ -62,7 +62,7 @@ public class JwtTokenProvider {
 
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer_")) {
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7, bearerToken.length());
         }
         return null;
