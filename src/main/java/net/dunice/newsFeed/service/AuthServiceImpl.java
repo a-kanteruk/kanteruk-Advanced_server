@@ -40,12 +40,11 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public CustomSuccessResponse login(AuthDto authDto) {
+        LoginUserDto user = UserMapper.INSTANCE.UserEntityToLoginUserDto(userRepository
+                            .findByEmail(authDto.getEmail())
+                            .orElseThrow(() -> new CustomException(ValidationConstants.USER_NOT_FOUND)));
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authDto.getEmail(),
                                                                                     authDto.getPassword()));
-        LoginUserDto user = UserMapper.INSTANCE
-                    .UserEntityToLoginUserDto(userRepository
-                            .findByEmail(authDto.getEmail())
-                            .orElseThrow(() -> new CustomException("User not exist.")));
         user.setToken(jwtTokenProvider.createToken(user.getEmail()));
         return CustomSuccessResponse.getSuccessResponse(user);
     }

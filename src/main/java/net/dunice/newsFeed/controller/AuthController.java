@@ -21,13 +21,13 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping(value = "/register")
+    @PostMapping("/register")
     public ResponseEntity register(@Valid @RequestBody RegisterUserDto registerUserDto) {
         return ResponseEntity.ok(authService.register(registerUserDto));
     }
 
-    @PostMapping(value = "/login")
-    public ResponseEntity login(@Valid @RequestBody AuthDto authDto){
+    @PostMapping("/login")
+    public ResponseEntity login(@Valid @RequestBody AuthDto authDto) {
         return ResponseEntity.ok(authService.login(authDto));
     }
 }
