@@ -1,9 +1,10 @@
 package net.dunice.newsFeed.config;
 
+import lombok.RequiredArgsConstructor;
+import net.dunice.newsFeed.constants.EndpointConstants;
 import net.dunice.newsFeed.security.jwt.JwtConfigure;
 import net.dunice.newsFeed.security.jwt.JwtTokenProvider;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,15 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
 @Configuration
+@RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-        private static final String USER_ENDPOINT = "/v1/auth/login";
-        private static final String USER_ENDPOINT_REGISTRATION = "/v1/auth/register";
         private final JwtTokenProvider jwtTokenProvider;
-
-        @Autowired
-        public WebSecurityConfig(JwtTokenProvider jwtTokenProvider) {
-            this.jwtTokenProvider = jwtTokenProvider;
-        }
 
         @Bean
         @Override
@@ -47,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(USER_ENDPOINT, USER_ENDPOINT_REGISTRATION).permitAll()
+                .antMatchers(EndpointConstants.USER_ENDPOINT, EndpointConstants.USER_ENDPOINT_REGISTRATION).permitAll()
                 .anyRequest().authenticated()
                 .and().apply(new JwtConfigure(jwtTokenProvider));
     }

@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import lombok.Data;
 
-
 @Data
 public class LoginUserDto {
     private UUID id;
@@ -13,5 +12,4 @@ public class LoginUserDto {
     private String name;
     private String role;
     private String token;
-
 }

@@ -12,8 +12,6 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
-import net.dunice.newsFeed.constants.ValidationConstants;
-import net.dunice.newsFeed.exceptions.CustomJwtException;
 import net.dunice.newsFeed.models.Role;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -79,7 +77,7 @@ public class JwtTokenProvider {
             return true;
         }
         catch (JwtException | IllegalArgumentException exception) {
-            throw new CustomJwtException(ValidationConstants.TOKEN_NOT_PROVIDED);
+            throw new JwtException(exception.getMessage());
         }
     }
 

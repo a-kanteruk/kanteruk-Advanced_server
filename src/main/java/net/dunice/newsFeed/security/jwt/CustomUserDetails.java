@@ -1,6 +1,7 @@
 package net.dunice.newsFeed.security.jwt;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.UUID;
 
 import lombok.Data;
@@ -17,50 +18,40 @@ public class CustomUserDetails implements UserDetails {
     private final String email;
     private final String name;
     private final String password;
-    private final String role;
-
-    public CustomUserDetails(UUID id, String avatar, String email, String name, String password, SimpleGrantedAuthority role) {
-        this.id = id;
-        this.avatar = avatar;
-        this.email = email;
-        this.name = name;
-        this.password = password;
-        this.role = String.valueOf(role);
-    }
-
+    private final SimpleGrantedAuthority role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.singletonList(this.role);
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return this.name;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

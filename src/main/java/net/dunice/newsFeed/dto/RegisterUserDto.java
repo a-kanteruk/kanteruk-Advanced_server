@@ -10,20 +10,20 @@ import net.dunice.newsFeed.constants.ValidationConstants;
 @Data
 public class RegisterUserDto {
     @NotBlank(message = ValidationConstants.USER_AVATAR_NOT_NULL)
-    String avatar;
+    private String avatar;
     @NotBlank(message = ValidationConstants.EMAIL_SIZE_NOT_VALID)
     @Pattern(regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" +
                      "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$",
                         message = ValidationConstants.USER_EMAIL_NOT_VALID)
-    String email;
+    private String email;
     @NotBlank(message = ValidationConstants.USER_NAME_HAS_TO_BE_PRESENT)
     @Size(min = 3, max = 25, message = ValidationConstants.USERNAME_SIZE_NOT_VALID)
-    String name;
+    private String name;
     @NotBlank(message = ValidationConstants.PASSWORD_NOT_NULL)
     @Size(min = 3, max = 100, message = ValidationConstants.PASSWORD_NOT_VALID)
-    String password;
+    private String password;
     @NotBlank(message = ValidationConstants.USER_ROLE_NOT_NULL)
     @Pattern(regexp = "base|user", message = ValidationConstants.UNKNOWN)
-    String role;
+    private String role;
 
 }
