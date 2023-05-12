@@ -51,4 +51,5 @@ public interface ValidationConstants {
     String USER_ROLE_NOT_NULL = "user role mustn't be null";
     String UNKNOWN = "unknown";
     String USER_ALREADY_EXISTS = "User already exist";
+    String USER_NOT_FOUND = "Could not find user";
 }

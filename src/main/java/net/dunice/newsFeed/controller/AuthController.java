@@ -3,6 +3,7 @@ package net.dunice.newsFeed.controller;
 import javax.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
+import net.dunice.newsFeed.dto.AuthDto;
 import net.dunice.newsFeed.dto.RegisterUserDto;
 import net.dunice.newsFeed.service.AuthService;
 
@@ -20,8 +21,13 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping(value = "/register")
+    @PostMapping("/register")
     public ResponseEntity register(@Valid @RequestBody RegisterUserDto registerUserDto) {
         return ResponseEntity.ok(authService.register(registerUserDto));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity login(@Valid @RequestBody AuthDto authDto) {
+        return ResponseEntity.ok(authService.login(authDto));
     }
 }
