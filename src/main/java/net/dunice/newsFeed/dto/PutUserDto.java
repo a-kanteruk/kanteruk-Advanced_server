@@ -1,12 +1,12 @@
 package net.dunice.newsFeed.dto;
 
-import lombok.Data;
-import net.dunice.newsFeed.constants.ValidationConstants;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import lombok.Data;
+import net.dunice.newsFeed.constants.ValidationConstants;
 
 @Data
 public class PutUserDto {

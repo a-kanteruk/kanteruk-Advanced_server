@@ -1,5 +1,7 @@
 package net.dunice.newsFeed.service;
 
+import java.util.UUID;
+
 import lombok.RequiredArgsConstructor;
 import net.dunice.newsFeed.constants.ValidationConstants;
 import net.dunice.newsFeed.dto.PublicUserView;
@@ -10,13 +12,10 @@ import net.dunice.newsFeed.repository.UserRepository;
 import net.dunice.newsFeed.response.BaseSuccessResponse;
 import net.dunice.newsFeed.response.CustomSuccessResponse;
 import net.dunice.newsFeed.security.jwt.JwtTokenProvider;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor

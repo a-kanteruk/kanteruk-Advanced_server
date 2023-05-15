@@ -1,8 +1,8 @@
 package net.dunice.newsFeed.dto;
 
-import lombok.Data;
-
 import java.util.UUID;
+
+import lombok.Data;
 
 @Data
 public class PublicUserView {
