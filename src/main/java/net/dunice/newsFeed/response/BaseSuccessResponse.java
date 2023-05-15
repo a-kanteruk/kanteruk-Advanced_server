@@ -15,7 +15,7 @@ public class BaseSuccessResponse {
                 .setSuccess(true);
     }
 
-    public static BaseSuccessResponse getOkResponse() {
+    public static BaseSuccessResponse getSuccessResponse() {
         return new BaseSuccessResponse()
                 .setStatusCode(1)
                 .setSuccess(true);

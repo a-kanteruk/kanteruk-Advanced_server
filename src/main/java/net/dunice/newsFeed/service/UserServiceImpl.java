@@ -5,11 +5,9 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import net.dunice.newsFeed.constants.ValidationConstants;
 import net.dunice.newsFeed.dto.PublicUserView;
-import net.dunice.newsFeed.dto.PutUserDto;
 import net.dunice.newsFeed.exceptions.CustomException;
 import net.dunice.newsFeed.mappers.UserMapper;
 import net.dunice.newsFeed.repository.UserRepository;
-import net.dunice.newsFeed.response.BaseSuccessResponse;
 import net.dunice.newsFeed.response.CustomSuccessResponse;
 import net.dunice.newsFeed.security.jwt.JwtTokenProvider;
 
@@ -46,15 +44,5 @@ public class UserServiceImpl implements UserService {
                                         .findById(id)
                                         .orElseThrow(() -> new CustomException(ValidationConstants.USER_NOT_FOUND)));
         return CustomSuccessResponse.getSuccessResponse(user);
-    }
-
-    @Override
-    public BaseSuccessResponse deleteUser(UUID id) {
-        return null;
-    }
-
-    @Override
-    public CustomSuccessResponse changeUser(PutUserDto putUserDto) {
-        return null;
     }
 }

@@ -2,6 +2,7 @@ package net.dunice.newsFeed.mappers;
 
 import net.dunice.newsFeed.dto.LoginUserDto;
 import net.dunice.newsFeed.dto.PublicUserView;
+import net.dunice.newsFeed.dto.PutUserDtoResponse;
 import net.dunice.newsFeed.dto.RegisterUserDto;
 import net.dunice.newsFeed.models.UserEntity;
 import org.mapstruct.Mapper;
@@ -38,4 +39,12 @@ public interface UserMapper {
             @Mapping(target = "role", source = "userEntity.role")
     })
     PublicUserView UserEntityToPublicUserView(UserEntity userEntity);
+    @Mappings({
+            @Mapping(target = "id", source = "userEntity.id"),
+            @Mapping(target = "avatar", source = "userEntity.avatar"),
+            @Mapping(target = "email", source = "userEntity.email"),
+            @Mapping(target = "name", source = "userEntity.name"),
+            @Mapping(target = "role", source = "userEntity.role")
+    })
+    PutUserDtoResponse UserEntityToPutUserDtoResponse(UserEntity userEntity);
 }

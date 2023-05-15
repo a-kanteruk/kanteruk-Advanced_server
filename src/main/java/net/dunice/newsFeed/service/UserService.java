@@ -9,10 +9,6 @@ import net.dunice.newsFeed.response.CustomSuccessResponse;
 public interface UserService {
     CustomSuccessResponse getAllUsers();
 
-    BaseSuccessResponse deleteUser(UUID id);
-
-    CustomSuccessResponse changeUser(PutUserDto putUserDto);
-
     CustomSuccessResponse getUserInfoById(UUID id);
 
     CustomSuccessResponse getUserInfo(UUID id);

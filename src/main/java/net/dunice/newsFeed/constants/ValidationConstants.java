@@ -52,4 +52,5 @@ public interface ValidationConstants {
     String UNKNOWN = "unknown";
     String USER_ALREADY_EXISTS = "User already exist";
     String USER_NOT_FOUND = "Could not find user";
+    String UNAUTHORISED = "unauthorised";
 }

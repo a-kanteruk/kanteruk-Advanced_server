@@ -1,8 +1,8 @@
-package net.dunice.newsFeed.response;
-
-import java.util.UUID;
+package net.dunice.newsFeed.dto;
 
 import lombok.Data;
+
+import java.util.UUID;
 
 @Data
 public class PutUserDtoResponse {

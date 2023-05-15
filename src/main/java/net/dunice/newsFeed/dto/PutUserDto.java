@@ -16,6 +16,7 @@ public class PutUserDto {
     @Pattern(regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" +
             "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$",
             message = ValidationConstants.USER_EMAIL_NOT_VALID)
+    @NotNull(message = ValidationConstants.USER_EMAIL_NOT_NULL)
     private String email;
     @NotBlank(message = ValidationConstants.USER_NAME_HAS_TO_BE_PRESENT)
     @Size(min = 3, max = 25, message = ValidationConstants.USERNAME_SIZE_NOT_VALID)
