@@ -42,4 +42,10 @@ public class CustomExceptionHandler {
         return new ResponseEntity(CustomSuccessResponse.getBadResponse(ErrorCodes.getErrorCode(exception.getMessage())),
                                                                 HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(CustomAuthenticationException.class)
+    public ResponseEntity handle(CustomAuthenticationException exception) {
+        return new ResponseEntity(CustomSuccessResponse.getBadResponse(ErrorCodes.getErrorCode(exception.getMessage())),
+                HttpStatus.UNAUTHORIZED);
+    }
 }
