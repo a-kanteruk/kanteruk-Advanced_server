@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import lombok.RequiredArgsConstructor;
 import net.dunice.newsFeed.constants.ValidationConstants;
+import net.dunice.newsFeed.dto.PutUserDto;
 import net.dunice.newsFeed.security.jwt.CustomUserDetails;
 import net.dunice.newsFeed.service.UserServiceImpl;
 import org.hibernate.validator.constraints.Length;
@@ -14,6 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,5 +45,11 @@ public class UserController {
     public ResponseEntity getUserInfo(Authentication authentication) {
         CustomUserDetails cud = (CustomUserDetails) authentication.getPrincipal();
         return ResponseEntity.ok(userService.getUserInfo(cud.getId()));
+    }
+
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity changeUserInfo(@RequestBody @Valid PutUserDto putUserDto, Authentication authentication){
+        CustomUserDetails cud = (CustomUserDetails) authentication.getPrincipal();
+        return ResponseEntity.ok(userService.changeUser(cud.getId(), putUserDto));
     }
 }
