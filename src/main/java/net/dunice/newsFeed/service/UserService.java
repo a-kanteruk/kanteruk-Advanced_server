@@ -13,4 +13,5 @@ public interface UserService {
 
     CustomSuccessResponse getUserInfo(UUID id);
 
+    CustomSuccessResponse changeUser(UUID id, PutUserDto putUserDto);
 }
