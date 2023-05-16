@@ -47,4 +47,5 @@ public interface UserMapper {
             @Mapping(target = "role", source = "userEntity.role")
     })
     PutUserDtoResponse UserEntityToPutUserDtoResponse(UserEntity userEntity);
+
 }
