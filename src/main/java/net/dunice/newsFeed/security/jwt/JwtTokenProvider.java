@@ -12,6 +12,8 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import net.dunice.newsFeed.constants.ValidationConstants;
+import net.dunice.newsFeed.exceptions.CustomException;
 import net.dunice.newsFeed.models.Role;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -68,7 +70,7 @@ public class JwtTokenProvider {
         return null;
     }
 
-    public boolean validateToken(String token) {
+    public boolean validateToken(String token) throws CustomException {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
             if (claims.getBody().getExpiration().before(new Date())) {
@@ -77,7 +79,7 @@ public class JwtTokenProvider {
             return true;
         }
         catch (JwtException | IllegalArgumentException exception) {
-            throw new JwtException(exception.getMessage());
+            throw new CustomException(ValidationConstants.UNAUTHORISED);
         }
     }
 

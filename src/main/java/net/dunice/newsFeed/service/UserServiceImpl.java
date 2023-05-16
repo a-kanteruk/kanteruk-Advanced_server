@@ -10,6 +10,7 @@ import net.dunice.newsFeed.exceptions.CustomException;
 import net.dunice.newsFeed.mappers.UserMapper;
 import net.dunice.newsFeed.models.UserEntity;
 import net.dunice.newsFeed.repository.UserRepository;
+import net.dunice.newsFeed.response.BaseSuccessResponse;
 import net.dunice.newsFeed.response.CustomSuccessResponse;
 import net.dunice.newsFeed.security.jwt.JwtTokenProvider;
 
@@ -57,5 +58,14 @@ public class UserServiceImpl implements UserService {
                 .setName(putUserDto.getName()).setRole(putUserDto.getRole());
         userRepository.save(changeUser);
         return CustomSuccessResponse.getSuccessResponse(UserMapper.INSTANCE.UserEntityToPutUserDtoResponse(changeUser));
+    }
+
+    @Override
+    public BaseSuccessResponse deleteUser(UUID id) {
+        if (!userRepository.existsById(id)) {
+            throw new CustomException(ValidationConstants.USER_NOT_FOUND);
+        }
+        userRepository.deleteById(id);
+        return BaseSuccessResponse.getSuccessResponse();
     }
 }
