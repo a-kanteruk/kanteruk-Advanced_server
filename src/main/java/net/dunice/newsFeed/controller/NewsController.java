@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import net.dunice.newsFeed.dto.NewsDto;
 import net.dunice.newsFeed.security.jwt.CustomUserDetails;
+import net.dunice.newsFeed.services.NewsService;
 import net.dunice.newsFeed.services.NewsServiceImpl;
 
 import org.springframework.http.MediaType;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1/news")
 @RequiredArgsConstructor
 public class NewsController {
-    private final NewsServiceImpl newsService;
+    private final NewsService newsService;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createNews(@Valid @RequestBody NewsDto newsDto,

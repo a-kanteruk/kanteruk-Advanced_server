@@ -28,12 +28,10 @@ public class NewsEntity {
     private String image;
     private String title;
 
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "news", fetch = FetchType.EAGER)
     private List<TagEntity> tags;
-
 }
