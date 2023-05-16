@@ -1,4 +1,4 @@
-package net.dunice.newsFeed.response;
+package net.dunice.newsFeed.responses;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

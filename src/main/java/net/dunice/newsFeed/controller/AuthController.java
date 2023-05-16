@@ -5,7 +5,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import net.dunice.newsFeed.dto.AuthDto;
 import net.dunice.newsFeed.dto.RegisterUserDto;
-import net.dunice.newsFeed.service.AuthService;
+import net.dunice.newsFeed.services.AuthService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

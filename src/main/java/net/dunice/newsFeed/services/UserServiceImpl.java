@@ -1,4 +1,4 @@
-package net.dunice.newsFeed.service;
+package net.dunice.newsFeed.services;
 
 import java.util.UUID;
 
@@ -10,7 +10,8 @@ import net.dunice.newsFeed.exceptions.CustomException;
 import net.dunice.newsFeed.mappers.UserMapper;
 import net.dunice.newsFeed.models.UserEntity;
 import net.dunice.newsFeed.repository.UserRepository;
-import net.dunice.newsFeed.response.CustomSuccessResponse;
+import net.dunice.newsFeed.responses.BaseSuccessResponse;
+import net.dunice.newsFeed.responses.CustomSuccessResponse;
 import net.dunice.newsFeed.security.jwt.JwtTokenProvider;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -57,5 +58,14 @@ public class UserServiceImpl implements UserService {
                 .setName(putUserDto.getName()).setRole(putUserDto.getRole());
         userRepository.save(changeUser);
         return CustomSuccessResponse.getSuccessResponse(UserMapper.INSTANCE.UserEntityToPutUserDtoResponse(changeUser));
+    }
+
+    @Override
+    public BaseSuccessResponse deleteUser(UUID id) {
+        if (!userRepository.existsById(id)) {
+            throw new CustomException(ValidationConstants.USER_NOT_FOUND);
+        }
+        userRepository.deleteById(id);
+        return BaseSuccessResponse.getSuccessResponse();
     }
 }

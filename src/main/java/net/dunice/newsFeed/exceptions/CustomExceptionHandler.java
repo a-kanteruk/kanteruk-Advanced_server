@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import javax.validation.ConstraintViolationException;
 
 import net.dunice.newsFeed.constants.ErrorCodes;
-import net.dunice.newsFeed.response.CustomSuccessResponse;
+import net.dunice.newsFeed.responses.CustomSuccessResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,11 +41,5 @@ public class CustomExceptionHandler {
     public ResponseEntity handle(CustomException exception) {
         return new ResponseEntity(CustomSuccessResponse.getBadResponse(ErrorCodes.getErrorCode(exception.getMessage())),
                                                                 HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(CustomAuthenticationException.class)
-    public ResponseEntity handle(CustomAuthenticationException exception) {
-        return new ResponseEntity(CustomSuccessResponse.getBadResponse(ErrorCodes.getErrorCode(exception.getMessage())),
-                HttpStatus.UNAUTHORIZED);
     }
 }

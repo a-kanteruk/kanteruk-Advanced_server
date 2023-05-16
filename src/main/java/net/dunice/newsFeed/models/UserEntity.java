@@ -10,11 +10,9 @@ import javax.persistence.Id;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 @Entity
 @Data
-@Accessors(chain = true)
 @NoArgsConstructor
 public class UserEntity {
     @Id
@@ -26,5 +24,4 @@ public class UserEntity {
     private String name;
     private String password;
     private String role;
-
 }
