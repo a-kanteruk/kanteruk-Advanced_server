@@ -1,10 +1,10 @@
-package net.dunice.newsFeed.service;
+package net.dunice.newsFeed.services;
 
 import java.util.UUID;
 
 import net.dunice.newsFeed.dto.PutUserDto;
-import net.dunice.newsFeed.response.BaseSuccessResponse;
-import net.dunice.newsFeed.response.CustomSuccessResponse;
+import net.dunice.newsFeed.responses.BaseSuccessResponse;
+import net.dunice.newsFeed.responses.CustomSuccessResponse;
 
 public interface UserService {
     CustomSuccessResponse getAllUsers();

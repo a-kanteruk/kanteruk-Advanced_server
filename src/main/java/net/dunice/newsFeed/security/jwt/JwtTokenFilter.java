@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import net.dunice.newsFeed.constants.ErrorCodes;
 import net.dunice.newsFeed.exceptions.CustomException;
-import net.dunice.newsFeed.response.CustomSuccessResponse;
+import net.dunice.newsFeed.responses.CustomSuccessResponse;
 
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;

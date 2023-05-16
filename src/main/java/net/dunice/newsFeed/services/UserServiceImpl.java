@@ -1,4 +1,4 @@
-package net.dunice.newsFeed.service;
+package net.dunice.newsFeed.services;
 
 import java.util.UUID;
 
@@ -10,8 +10,8 @@ import net.dunice.newsFeed.exceptions.CustomException;
 import net.dunice.newsFeed.mappers.UserMapper;
 import net.dunice.newsFeed.models.UserEntity;
 import net.dunice.newsFeed.repository.UserRepository;
-import net.dunice.newsFeed.response.BaseSuccessResponse;
-import net.dunice.newsFeed.response.CustomSuccessResponse;
+import net.dunice.newsFeed.responses.BaseSuccessResponse;
+import net.dunice.newsFeed.responses.CustomSuccessResponse;
 import net.dunice.newsFeed.security.jwt.JwtTokenProvider;
 
 import org.springframework.security.authentication.AuthenticationManager;

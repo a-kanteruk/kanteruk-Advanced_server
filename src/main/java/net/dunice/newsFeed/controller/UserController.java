@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import net.dunice.newsFeed.constants.ValidationConstants;
 import net.dunice.newsFeed.dto.PutUserDto;
 import net.dunice.newsFeed.security.jwt.CustomUserDetails;
-import net.dunice.newsFeed.service.UserServiceImpl;
+import net.dunice.newsFeed.services.UserServiceImpl;
 import org.hibernate.validator.constraints.Length;
 
 import org.springframework.http.MediaType;
