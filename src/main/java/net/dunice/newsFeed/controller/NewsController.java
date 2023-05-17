@@ -3,8 +3,13 @@ package net.dunice.newsFeed.controller;
 import java.util.UUID;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import lombok.RequiredArgsConstructor;
+import net.dunice.newsFeed.constants.ValidationConstants;
 import net.dunice.newsFeed.dto.NewsDto;
 import net.dunice.newsFeed.security.jwt.CustomUserDetails;
 import net.dunice.newsFeed.services.NewsService;
@@ -36,14 +41,37 @@ public class NewsController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getNews(@RequestParam Integer page, @RequestParam Integer perPage) {
+    public ResponseEntity getNews(
+            @RequestParam
+            @NotNull(message = ValidationConstants.PARAM_PAGE_NOT_NULL)
+            @Positive(message = ValidationConstants.PAGE_SIZE_NOT_VALID)
+            @Max(message = ValidationConstants.REQUIRED_INT_PARAM_PAGE_IS_NOT_PRESENT, value = Integer.MAX_VALUE)
+            @Min(message = ValidationConstants.REQUIRED_INT_PARAM_PAGE_IS_NOT_PRESENT, value = 1)
+            Integer page,
+            @RequestParam
+            @NotNull(message = ValidationConstants.PARAM_PER_PAGE_NOT_NULL)
+            @Positive(message = ValidationConstants.PAGE_SIZE_NOT_VALID)
+            @Max(message = ValidationConstants.PER_PAGE_MAX_NOT_VALID, value = 1000)
+            @Min(message = ValidationConstants.PER_PAGE_MIN_NOT_VALID, value = 1)
+            Integer perPage) {
         return ResponseEntity.ok(newsService.getPaginatedNews(page, perPage));
     }
 
     @GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getUserNews(@RequestParam Integer page,
-                                      @RequestParam Integer perPage,
-                                      @PathVariable UUID userId) {
+    public ResponseEntity getUserNews(
+            @RequestParam
+            @NotNull(message = ValidationConstants.PARAM_PAGE_NOT_NULL)
+            @Positive(message = ValidationConstants.PAGE_SIZE_NOT_VALID)
+            @Max(message = ValidationConstants.REQUIRED_INT_PARAM_PAGE_IS_NOT_PRESENT, value = Integer.MAX_VALUE)
+            @Min(message = ValidationConstants.REQUIRED_INT_PARAM_PAGE_IS_NOT_PRESENT, value = 1)
+            Integer page,
+            @RequestParam
+            @NotNull(message = ValidationConstants.PARAM_PER_PAGE_NOT_NULL)
+            @Positive(message = ValidationConstants.PAGE_SIZE_NOT_VALID)
+            @Max(message = ValidationConstants.PER_PAGE_MAX_NOT_VALID, value = 100)
+            @Min(message = ValidationConstants.PER_PAGE_MIN_NOT_VALID, value = 1)
+            Integer perPage,
+            @PathVariable UUID userId) {
         return ResponseEntity.ok(newsService.getPaginatedUserNews(page, perPage, userId));
     }
 }
