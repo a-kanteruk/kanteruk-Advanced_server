@@ -21,7 +21,6 @@ import net.dunice.newsFeed.responses.CustomSuccessResponse;
 import net.dunice.newsFeed.responses.PageableResponse;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,10 +33,11 @@ public class NewsServiceImpl implements NewsService {
     public CreateNewsSuccessResponse createNews(NewsDto newsDto, UUID userId) {
         UserEntity userEntity = userRepository.findById(userId)
                                 .orElseThrow(() -> new CustomException(ValidationConstants.USER_NOT_FOUND));
-        List<TagEntity> list = newsDto.getTags().stream().map(tag -> new TagEntity().setTag(tag))
-                                                         .collect(Collectors.toList());
-        NewsEntity newsEntity = NewsMapper.INSTANCE.NewsDtoToNewsEntity(newsDto);
-        newsEntity.setTags(list).setUser(userEntity);
+        NewsEntity newsEntity = NewsMapper.INSTANCE.NewsDtoToNewsEntity(newsDto).setUser(userEntity);
+        newsRepository.save(newsEntity);
+        List<TagEntity> tagList = newsDto.getTags().stream().map(tag -> new TagEntity().setTag(tag).setNews(newsEntity))
+                                                                                        .collect(Collectors.toList());
+        newsEntity.setTags(tagList);
         newsRepository.save(newsEntity);
         return CreateNewsSuccessResponse.CreateNewsResponse(newsEntity.getId());
     }
