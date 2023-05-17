@@ -16,9 +16,9 @@ import net.dunice.newsFeed.models.UserEntity;
 import net.dunice.newsFeed.repository.NewsRepository;
 import net.dunice.newsFeed.repository.UserRepository;
 import net.dunice.newsFeed.responses.CreateNewsSuccessResponse;
-
 import net.dunice.newsFeed.responses.CustomSuccessResponse;
 import net.dunice.newsFeed.responses.PageableResponse;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

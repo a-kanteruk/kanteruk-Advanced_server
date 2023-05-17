@@ -37,7 +37,7 @@ public interface NewsMapper {
 
     @Mappings({
             @Mapping(target = "id", source = "tagEntity.id"),
-            @Mapping(target = "title", source = "tagEntity.tag"),
+            @Mapping(target = "title", source = "tagEntity.tag")
     })
     Tag TagEntityToTag(TagEntity tagEntity);
 }

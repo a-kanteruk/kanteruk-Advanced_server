@@ -13,7 +13,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/v1/news")
 @RequiredArgsConstructor
 public class NewsController {
@@ -27,7 +26,7 @@ public class NewsController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getNews(@RequestParam Integer page, @RequestParam Integer perPage){
+    public ResponseEntity getNews(@RequestParam Integer page, @RequestParam Integer perPage) {
         return ResponseEntity.ok(newsService.getPaginatedNews(page, perPage));
     }
 }
