@@ -43,7 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(EndpointConstants.USER_ENDPOINT,
-                             EndpointConstants.USER_ENDPOINT_REGISTRATION).permitAll()
+                             EndpointConstants.USER_ENDPOINT_REGISTRATION,
+                             EndpointConstants.USER_ENDPOINT_NEWS).permitAll()
                 .anyRequest().authenticated()
                 .and().apply(new JwtConfigure(jwtTokenProvider));
     }
