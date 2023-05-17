@@ -1,5 +1,7 @@
 package net.dunice.newsFeed.controller;
 
+import java.util.UUID;
+
 import javax.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,5 +38,12 @@ public class NewsController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getNews(@RequestParam Integer page, @RequestParam Integer perPage) {
         return ResponseEntity.ok(newsService.getPaginatedNews(page, perPage));
+    }
+
+    @GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getUserNews(@RequestParam Integer page,
+                                      @RequestParam Integer perPage,
+                                      @PathVariable UUID userId) {
+        return ResponseEntity.ok(newsService.getPaginatedUserNews(page, perPage, userId));
     }
 }

@@ -10,6 +10,7 @@ import net.dunice.newsFeed.dto.GetNewsOutDto;
 import net.dunice.newsFeed.dto.NewsDto;
 import net.dunice.newsFeed.exceptions.CustomException;
 import net.dunice.newsFeed.mappers.NewsMapper;
+import net.dunice.newsFeed.mappers.TagsMapper;
 import net.dunice.newsFeed.models.NewsEntity;
 import net.dunice.newsFeed.models.TagEntity;
 import net.dunice.newsFeed.models.UserEntity;
@@ -51,10 +52,28 @@ public class NewsServiceImpl implements NewsService {
                                 .setUserId(newsEntity.getUser().getId())
                                 .setUsername(newsEntity.getUser().getName())
                                 .setTags(newsEntity.getTags().stream()
-                                                     .map(tag -> NewsMapper.INSTANCE.TagEntityToTag(tag))
+                                                     .map(tag -> TagsMapper.INSTANCE.TagEntityToTag(tag))
                                                      .collect(Collectors.toList()))).collect(Collectors.toList());
-        Long numberOfElements = listNewsDto.stream().count();
+        Long numberOfElements = newsRepository.count();
         return CustomSuccessResponse.getSuccessResponse(PageableResponse.createPageableResponse(listNewsDto,
                                                                                                 numberOfElements));
+    }
+
+    @Override
+    public CustomSuccessResponse<PageableResponse> getPaginatedUserNews(int page, int perPage, UUID userId) {
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ValidationConstants.USER_NOT_FOUND));
+        Pageable pageable = PageRequest.of(page - 1, perPage);
+        List<NewsEntity> listNewsEntity = newsRepository.findAllByUser(userEntity, pageable).getContent();
+        List<GetNewsOutDto> listNewsDto = listNewsEntity.stream()
+                .map(newsEntity -> NewsMapper.INSTANCE.NewsEntityToGetNewsOutDto(newsEntity)
+                        .setUserId(newsEntity.getUser().getId())
+                        .setUsername(newsEntity.getUser().getName())
+                        .setTags(newsEntity.getTags().stream()
+                                .map(tag -> TagsMapper.INSTANCE.TagEntityToTag(tag))
+                                .collect(Collectors.toList()))).collect(Collectors.toList());
+        Long numberOfElements = newsRepository.count();
+        return CustomSuccessResponse.getSuccessResponse(PageableResponse.createPageableResponse(listNewsDto,
+                numberOfElements));
     }
 }

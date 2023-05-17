@@ -9,5 +9,8 @@ import net.dunice.newsFeed.responses.PageableResponse;
 
 public interface NewsService {
     CreateNewsSuccessResponse createNews(NewsDto newsDto, UUID userId);
+
     CustomSuccessResponse<PageableResponse> getPaginatedNews(int page, int perPage);
+
+    CustomSuccessResponse<PageableResponse> getPaginatedUserNews(int page, int perPage, UUID userId);
 }
