@@ -10,9 +10,9 @@ public class CreateNewsSuccessResponse {
     private int statusCode;
     private boolean success;
 
-    public static CreateNewsSuccessResponse CreateNewsResponse(Long id, int statusCode){
+    public static CreateNewsSuccessResponse CreateNewsResponse(Long id) {
         return new CreateNewsSuccessResponse().setId(id)
-                                              .setStatusCode(statusCode)
+                                              .setStatusCode(1)
                                               .setSuccess(true);
     }
 }
