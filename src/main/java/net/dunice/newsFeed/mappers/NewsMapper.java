@@ -1,5 +1,6 @@
 package net.dunice.newsFeed.mappers;
 
+import net.dunice.newsFeed.dto.GetNewsOutDto;
 import net.dunice.newsFeed.dto.NewsDto;
 import net.dunice.newsFeed.models.NewsEntity;
 import org.mapstruct.Mapper;
@@ -20,4 +21,15 @@ public interface NewsMapper {
             @Mapping(target = "user", ignore = true)
     })
     NewsEntity NewsDtoToNewsEntity(NewsDto newsDto);
+
+    @Mappings({
+            @Mapping(target = "id", source = "newsEntity.id"),
+            @Mapping(target = "description", source = "newsEntity.description"),
+            @Mapping(target = "image", source = "newsEntity.image"),
+            @Mapping(target = "tags", ignore = true),
+            @Mapping(target = "title", source = "newsEntity.title"),
+            @Mapping(target = "username", ignore = true),
+            @Mapping(target = "userId", ignore = true)
+    })
+    GetNewsOutDto NewsEntityToGetNewsOutDto(NewsEntity newsEntity);
 }

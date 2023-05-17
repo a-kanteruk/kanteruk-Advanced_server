@@ -3,4 +3,6 @@ package net.dunice.newsFeed.constants;
 public interface EndpointConstants {
     String USER_ENDPOINT = "/v1/auth/login";
     String USER_ENDPOINT_REGISTRATION = "/v1/auth/register";
+    String NEWS_ENDPOINT = "/v1/news";
+
 }

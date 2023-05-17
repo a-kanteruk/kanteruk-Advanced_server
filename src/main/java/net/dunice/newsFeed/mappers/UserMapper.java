@@ -19,9 +19,11 @@ public interface UserMapper {
             @Mapping(target = "email", source = "registerUserDto.email"),
             @Mapping(target = "name", source = "registerUserDto.name"),
             @Mapping(target = "password", source = "registerUserDto.password"),
-            @Mapping(target = "role", source = "registerUserDto.role")
+            @Mapping(target = "role", source = "registerUserDto.role"),
+            @Mapping(target = "news", ignore = true)
+
     })
-    UserEntity registerDtoToUserEntity(RegisterUserDto registerUserDto);
+    UserEntity registerUserDtoToUserEntity(RegisterUserDto registerUserDto);
     @Mappings({
             @Mapping(target = "id", source = "userEntity.id"),
             @Mapping(target = "avatar", source = "userEntity.avatar"),
