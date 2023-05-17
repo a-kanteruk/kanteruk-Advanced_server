@@ -27,7 +27,6 @@ public class NewsEntity {
     private	String description;
     private String image;
     private String title;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
