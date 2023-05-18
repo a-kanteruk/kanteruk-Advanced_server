@@ -22,18 +22,18 @@ import static net.dunice.newsFeed.constants.EndpointConstants.*;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         private final JwtTokenProvider jwtTokenProvider;
 
-        @Bean
-        @Override
-        public AuthenticationManager authenticationManagerBean() throws Exception {
-            return super.authenticationManagerBean();
-        }
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
-        @Bean
-        public PasswordEncoder encode() {
+    @Bean
+    public PasswordEncoder encode() {
         return new BCryptPasswordEncoder();
     }
 
-        @Override
+    @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.httpBasic()
                 .disable()
@@ -45,7 +45,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(USER_ENDPOINT,
                              USER_ENDPOINT_REGISTRATION,
-                             NEWS_ENDPOINT).permitAll()
+                             NEWS_ENDPOINT,
+                             UPLOAD_FILE_ENDPOINT,
+                             LOAD_FILE_ENDPOINT)
+                .permitAll()
                 .anyRequest().authenticated()
                 .and().apply(new JwtConfigure(jwtTokenProvider));
     }
