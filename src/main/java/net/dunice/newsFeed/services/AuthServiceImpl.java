@@ -32,7 +32,8 @@ public class AuthServiceImpl implements AuthService {
             throw new CustomException(ValidationConstants.USER_ALREADY_EXISTS);
         }
         registerUserDto.setPassword(passwordEncoder.encode(registerUserDto.getPassword()));
-        UserEntity newUser = userRepository.save(UserMapper.INSTANCE.registerUserDtoToUserEntity(registerUserDto));
+        UserEntity newUser = userRepository.save(UserMapper.INSTANCE.registerUserDtoToUserEntity(registerUserDto)
+                                                 .setAvatar("" + FilesServiceImpl.uploading));
         LoginUserDto response = UserMapper.INSTANCE.UserEntityToLoginUserDto(newUser);
         response.setToken(jwtTokenProvider.createToken(response.getEmail()));
         return CustomSuccessResponse.getSuccessResponse(response);

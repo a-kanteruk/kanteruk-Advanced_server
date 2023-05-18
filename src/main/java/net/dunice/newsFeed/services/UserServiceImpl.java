@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
     public CustomSuccessResponse changeUser(UUID id, PutUserDto putUserDto) {
         UserEntity changeUser = userRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ValidationConstants.USER_NOT_FOUND))
-                .setAvatar(putUserDto.getAvatar())
+                .setAvatar("" + FilesServiceImpl.uploading)
                 .setEmail(putUserDto.getEmail())
                 .setName(putUserDto.getName()).setRole(putUserDto.getRole());
         userRepository.save(changeUser);

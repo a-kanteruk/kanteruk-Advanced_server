@@ -34,7 +34,9 @@ public class NewsServiceImpl implements NewsService {
     public CreateNewsSuccessResponse createNews(NewsDto newsDto, UUID userId) {
         UserEntity userEntity = userRepository.findById(userId)
                                 .orElseThrow(() -> new CustomException(ValidationConstants.USER_NOT_FOUND));
-        NewsEntity newsEntity = NewsMapper.INSTANCE.NewsDtoToNewsEntity(newsDto).setUser(userEntity);
+        NewsEntity newsEntity = NewsMapper.INSTANCE.NewsDtoToNewsEntity(newsDto)
+                                                        .setUser(userEntity)
+                                                        .setImage("" + FilesServiceImpl.uploading);
         newsRepository.save(newsEntity);
         List<TagEntity> tagList = newsDto.getTags().stream().map(tag -> new TagEntity().setTag(tag).setNews(newsEntity))
                                                                                         .collect(Collectors.toList());

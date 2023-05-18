@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import net.dunice.newsFeed.security.jwt.JwtConfigure;
 import net.dunice.newsFeed.security.jwt.JwtTokenProvider;
 
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,27 +14,38 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.server.header.CrossOriginResourcePolicyServerHttpHeadersWriter;
+import org.springframework.util.unit.DataSize;
+import org.springframework.web.multipart.MultipartException;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.http.HttpServletRequest;
 
 import static net.dunice.newsFeed.constants.EndpointConstants.*;
 
 @EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
         private final JwtTokenProvider jwtTokenProvider;
 
-        @Bean
-        @Override
-        public AuthenticationManager authenticationManagerBean() throws Exception {
-            return super.authenticationManagerBean();
-        }
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
-        @Bean
-        public PasswordEncoder encode() {
+    @Bean
+    public PasswordEncoder encode() {
         return new BCryptPasswordEncoder();
     }
 
-        @Override
+    @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.httpBasic()
                 .disable()
@@ -45,7 +57,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(USER_ENDPOINT,
                              USER_ENDPOINT_REGISTRATION,
-                             NEWS_ENDPOINT).permitAll()
+                             NEWS_ENDPOINT,
+                             UPLOAD_FILE_ENDPOINT,
+                             LOAD_FILE_ENDPOINT).permitAll()
                 .anyRequest().authenticated()
                 .and().apply(new JwtConfigure(jwtTokenProvider));
     }

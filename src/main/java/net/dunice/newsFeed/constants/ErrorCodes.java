@@ -33,7 +33,7 @@ public enum ErrorCodes {
     PER_PAGE_MIN_NOT_VALID(19, "perPage must be greater or equal 1"),
     PER_PAGE_MAX_NOT_VALID(19, "perPage must be less or equal 100"),
     CODE_NOT_NULL(20, "Required String parameter 'code' is not present"),
-    EXCEPTION_HANDLER_NOT_PROVIDED(21, "Exception handler not provided"),
+    EXCEPTION_HANDLER_NOT_PROVIDED(21, ValidationConstants.EXCEPTION_HANDLER_NOT_PROVIDED),
     REQUEST_IS_NOT_MULTIPART(22, "Current request is not a multipart request"),
     MAX_UPLOAD_SIZE_EXCEEDED(23, ValidationConstants.MAX_UPLOAD_SIZE_EXCEEDED),
     USER_AVATAR_NOT_NULL(24, "user avatar mustn't be null"),
