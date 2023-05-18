@@ -22,6 +22,7 @@ import net.dunice.newsFeed.responses.PageableResponse;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -47,7 +48,7 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public CustomSuccessResponse<PageableResponse> getPaginatedNews(int page, int perPage) {
-        Pageable pageable = PageRequest.of(page - 1, perPage);
+        Pageable pageable = PageRequest.of(page - 1, perPage, Sort.by("id").descending());
         List<NewsEntity> listNewsEntity = newsRepository.findAll(pageable).getContent();
         List<GetNewsOutDto> listNewsDto = listNewsEntity.stream()
                 .map(newsEntity -> NewsMapper.INSTANCE.NewsEntityToGetNewsOutDto(newsEntity)
@@ -74,7 +75,7 @@ public class NewsServiceImpl implements NewsService {
                         .setTags(newsEntity.getTags().stream()
                                 .map(tag -> TagsMapper.INSTANCE.TagEntityToTag(tag))
                                 .collect(Collectors.toList()))).collect(Collectors.toList());
-        Long numberOfElements = newsRepository.count();
+        Long numberOfElements = listNewsEntity.stream().count();
         return CustomSuccessResponse.getSuccessResponse(PageableResponse.createPageableResponse(listNewsDto,
                 numberOfElements));
     }

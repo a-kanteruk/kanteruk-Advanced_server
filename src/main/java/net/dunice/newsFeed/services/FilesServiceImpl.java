@@ -1,12 +1,5 @@
 package net.dunice.newsFeed.services;
 
-import net.dunice.newsFeed.responses.CustomSuccessResponse;
-import org.apache.commons.io.FilenameUtils;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.UrlResource;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -16,8 +9,16 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
+import net.dunice.newsFeed.responses.CustomSuccessResponse;
+import org.apache.commons.io.FilenameUtils;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.UrlResource;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 @Service
-public class FilesServiceImpl implements FilesService{
+public class FilesServiceImpl implements FilesService {
     @Value("${upload.path}")
     private String uploadPath;
     @Value("${file.url}")
