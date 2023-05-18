@@ -15,7 +15,6 @@ public interface NewsMapper {
     @Mappings({
             @Mapping(target = "id", ignore = true),
             @Mapping(target = "description", source = "newsDto.description"),
-//            @Mapping(target = "image", source = "newsDto.image"),
             @Mapping(target = "image", ignore = true),
             @Mapping(target = "tags", ignore = true),
             @Mapping(target = "title", source = "newsDto.title"),
