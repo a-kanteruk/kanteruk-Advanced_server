@@ -74,4 +74,13 @@ public class NewsController {
             @PathVariable UUID userId) {
         return ResponseEntity.ok(newsService.getPaginatedUserNews(page, perPage, userId));
     }
+
+    @GetMapping(value = "/find", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getFindNews(@RequestParam Integer page,
+                                      @RequestParam Integer perPage,
+                                      @RequestParam(required = false) String author,
+                                      @RequestParam(required = false) String keywords,
+                                      @RequestParam(required = false) String[] tags){
+        return ResponseEntity.ok(newsService.getFindNews(page, perPage, author, keywords, tags));
+    }
 }
