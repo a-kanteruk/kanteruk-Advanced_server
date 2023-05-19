@@ -42,14 +42,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
-                .antMatchers(USER_ENDPOINT,
-                             USER_ENDPOINT_REGISTRATION,
-                             NEWS_ENDPOINT,
-                             UPLOAD_FILE_ENDPOINT,
-                             LOAD_FILE_ENDPOINT)
+                .authorizeRequests().anyRequest()
                 .permitAll()
-                .anyRequest().authenticated()
                 .and().apply(new JwtConfigure(jwtTokenProvider));
     }
 }

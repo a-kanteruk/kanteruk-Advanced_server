@@ -65,13 +65,14 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public CustomSuccessResponse<PageableResponse> getPaginatedUserNews(int page, int perPage, UUID userId) {
         Pageable pageable = PageRequest.of(page - 1, perPage);
-        List<NewsEntity> listNewsEntity = newsRepository.findAllByUserId(userId, pageable).getContent();
+        List<NewsEntity> listNewsEntity = newsRepository.findAll(pageable).getContent();
         List<GetNewsOutDto> listNewsDto = listNewsEntity.stream()
+                .filter(newsEntity -> newsEntity.getIdUser().toString().equals(userId.toString()))
                 .map(newsEntity -> NewsMapper.INSTANCE.NewsEntityToGetNewsOutDto(newsEntity)
                         .setTags(newsEntity.getTags().stream()
                                 .map(tag -> TagsMapper.INSTANCE.TagEntityToTag(tag))
                                 .collect(Collectors.toList()))).collect(Collectors.toList());
-        Long numberOfElements = listNewsEntity.stream().count();
+        Long numberOfElements = listNewsDto.stream().count();
         return CustomSuccessResponse.getSuccessResponse(PageableResponse.createPageableResponse(listNewsDto,
                 numberOfElements));
     }
@@ -81,7 +82,7 @@ public class NewsServiceImpl implements NewsService {
         Pageable pageable = PageRequest.of(page - 1, perPage);
         List<NewsEntity> newsEntityList = newsRepository.findAll(pageable).getContent();
         List<GetNewsOutDto> getNewsOutDtoList = newsEntityList.stream()
-                .filter(newsEntity -> author != null ? newsEntity.getUsername() == author : true)
+                .filter(newsEntity -> author != null ? newsEntity.getUsername().contains(author) : true)
                 .filter(newsEntity -> keywords != null ? newsEntity.getDescription().contains(keywords) : true)
                 .filter(newsEntity -> tags != null ? newsEntity.getTags()
                         .stream().anyMatch(tagEntity -> List.of(tags).contains(tagEntity.getTag())): true)
