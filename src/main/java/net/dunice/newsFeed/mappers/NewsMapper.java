@@ -18,7 +18,9 @@ public interface NewsMapper {
             @Mapping(target = "image", ignore = true),
             @Mapping(target = "tags", ignore = true),
             @Mapping(target = "title", source = "newsDto.title"),
-            @Mapping(target = "user", ignore = true)
+            @Mapping(target = "user", ignore = true),
+            @Mapping(target = "username", ignore = true),
+            @Mapping(target = "idUser", ignore = true)
     })
     NewsEntity NewsDtoToNewsEntity(NewsDto newsDto);
 
@@ -28,8 +30,8 @@ public interface NewsMapper {
             @Mapping(target = "image", source = "newsEntity.image"),
             @Mapping(target = "tags", ignore = true),
             @Mapping(target = "title", source = "newsEntity.title"),
-            @Mapping(target = "username", ignore = true),
-            @Mapping(target = "userId", ignore = true)
+            @Mapping(target = "username", source = "newsEntity.username"),
+            @Mapping(target = "userId", source = "newsEntity.idUser")
     })
     GetNewsOutDto NewsEntityToGetNewsOutDto(NewsEntity newsEntity);
 }

@@ -57,7 +57,7 @@ public class NewsController {
         return ResponseEntity.ok(newsService.getPaginatedNews(page, perPage));
     }
 
-    @GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/user/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getUserNews(
             @RequestParam
             @NotNull(message = ValidationConstants.PARAM_PAGE_NOT_NULL)
@@ -73,5 +73,23 @@ public class NewsController {
             Integer perPage,
             @PathVariable UUID userId) {
         return ResponseEntity.ok(newsService.getPaginatedUserNews(page, perPage, userId));
+    }
+
+    @GetMapping(value = "/find", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getFindNews(@RequestParam
+                @NotNull(message = ValidationConstants.PARAM_PAGE_NOT_NULL)
+                @Positive(message = ValidationConstants.PAGE_SIZE_NOT_VALID)
+                @Max(message = ValidationConstants.REQUIRED_INT_PARAM_PAGE_IS_NOT_PRESENT, value = Integer.MAX_VALUE)
+                @Min(message = ValidationConstants.REQUIRED_INT_PARAM_PAGE_IS_NOT_PRESENT, value = 1)
+                Integer page,
+                @NotNull(message = ValidationConstants.PARAM_PER_PAGE_NOT_NULL)
+                @Positive(message = ValidationConstants.PAGE_SIZE_NOT_VALID)
+                @Max(message = ValidationConstants.PER_PAGE_MAX_NOT_VALID, value = 100)
+                @Min(message = ValidationConstants.PER_PAGE_MIN_NOT_VALID, value = 1)
+                @RequestParam Integer perPage,
+                @RequestParam(required = false) String author,
+                @RequestParam(required = false) String keywords,
+                @RequestParam(required = false) String[] tags){
+        return ResponseEntity.ok(newsService.getFindNews(page, perPage, author, keywords, tags));
     }
 }

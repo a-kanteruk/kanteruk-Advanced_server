@@ -1,6 +1,7 @@
 package net.dunice.newsFeed.models;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -30,6 +31,9 @@ public class NewsEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
+
+    private String username;
+    private UUID idUser;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "news", fetch = FetchType.EAGER)
     private List<TagEntity> tags;
