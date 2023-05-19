@@ -33,7 +33,6 @@ public class NewsEntity {
     private UserEntity user;
 
     private String username;
-    private UUID idUser;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "news", fetch = FetchType.EAGER)
     private List<TagEntity> tags;

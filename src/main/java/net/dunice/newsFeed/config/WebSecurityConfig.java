@@ -14,8 +14,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import static net.dunice.newsFeed.constants.EndpointConstants.*;
-
 @EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor

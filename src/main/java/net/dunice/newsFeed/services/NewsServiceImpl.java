@@ -16,6 +16,7 @@ import net.dunice.newsFeed.models.TagEntity;
 import net.dunice.newsFeed.models.UserEntity;
 import net.dunice.newsFeed.repository.NewsRepository;
 import net.dunice.newsFeed.repository.UserRepository;
+import net.dunice.newsFeed.responses.BaseSuccessResponse;
 import net.dunice.newsFeed.responses.CreateNewsSuccessResponse;
 import net.dunice.newsFeed.responses.CustomSuccessResponse;
 import net.dunice.newsFeed.responses.PageableResponse;
@@ -38,7 +39,6 @@ public class NewsServiceImpl implements NewsService {
         NewsEntity newsEntity = NewsMapper.INSTANCE.NewsDtoToNewsEntity(newsDto)
                                                         .setUser(userEntity)
                                                         .setUsername(userEntity.getName())
-                                                        .setIdUser(userEntity.getId())
                                                         .setImage("" + FilesServiceImpl.uploading);
         newsRepository.save(newsEntity);
         List<TagEntity> tagList = newsDto.getTags().stream().map(tag -> new TagEntity().setTag(tag).setNews(newsEntity))
@@ -54,6 +54,7 @@ public class NewsServiceImpl implements NewsService {
         List<NewsEntity> listNewsEntity = newsRepository.findAll(pageable).getContent();
         List<GetNewsOutDto> listNewsDto = listNewsEntity.stream()
                 .map(newsEntity -> NewsMapper.INSTANCE.NewsEntityToGetNewsOutDto(newsEntity)
+                                .setUserId(newsEntity.getUser().getId())
                                 .setTags(newsEntity.getTags().stream()
                                                      .map(tag -> TagsMapper.INSTANCE.TagEntityToTag(tag))
                                                      .collect(Collectors.toList()))).collect(Collectors.toList());
@@ -65,10 +66,10 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public CustomSuccessResponse<PageableResponse> getPaginatedUserNews(int page, int perPage, UUID userId) {
         Pageable pageable = PageRequest.of(page - 1, perPage);
-        List<NewsEntity> listNewsEntity = newsRepository.findAll(pageable).getContent();
+        List<NewsEntity> listNewsEntity = newsRepository.findAllByUserId(userId, pageable).getContent();
         List<GetNewsOutDto> listNewsDto = listNewsEntity.stream()
-                .filter(newsEntity -> newsEntity.getIdUser().toString().equals(userId.toString()))
                 .map(newsEntity -> NewsMapper.INSTANCE.NewsEntityToGetNewsOutDto(newsEntity)
+                        .setUserId(newsEntity.getUser().getId())
                         .setTags(newsEntity.getTags().stream()
                                 .map(tag -> TagsMapper.INSTANCE.TagEntityToTag(tag))
                                 .collect(Collectors.toList()))).collect(Collectors.toList());
@@ -82,16 +83,26 @@ public class NewsServiceImpl implements NewsService {
         Pageable pageable = PageRequest.of(page - 1, perPage);
         List<NewsEntity> newsEntityList = newsRepository.findAll(pageable).getContent();
         List<GetNewsOutDto> getNewsOutDtoList = newsEntityList.stream()
-                .filter(newsEntity -> author != null ? newsEntity.getUsername().contains(author) : true)
-                .filter(newsEntity -> keywords != null ? newsEntity.getDescription().contains(keywords) : true)
-                .filter(newsEntity -> tags != null ? newsEntity.getTags()
-                        .stream().anyMatch(tagEntity -> List.of(tags).contains(tagEntity.getTag())): true)
+                .filter(newsEntity -> author == null || newsEntity.getUsername().contains(author))
+                .filter(newsEntity -> keywords == null || newsEntity.getDescription().contains(keywords))
+                .filter(newsEntity -> tags == null || newsEntity.getTags()
+                        .stream().anyMatch(tagEntity -> List.of(tags).contains(tagEntity.getTag())))
                 .map(newsEntity -> NewsMapper.INSTANCE.NewsEntityToGetNewsOutDto(newsEntity)
+                        .setUserId(newsEntity.getUser().getId())
                         .setTags(newsEntity.getTags()
                                 .stream().map(tagEntity -> TagsMapper.INSTANCE.TagEntityToTag(tagEntity))
                                 .collect(Collectors.toList())))
                 .collect(Collectors.toList());
         Long numberOfElements = getNewsOutDtoList.stream().count();
         return PageableResponse.createPageableResponse(getNewsOutDtoList, numberOfElements);
+    }
+
+    @Override
+    public BaseSuccessResponse deleteNews(Long newsId) {
+        if (!newsRepository.existsById(newsId)){
+            throw new CustomException(ValidationConstants.NEWS_NOT_FOUND);
+        }
+        newsRepository.deleteById(newsId);
+        return BaseSuccessResponse.getSuccessResponse();
     }
 }
