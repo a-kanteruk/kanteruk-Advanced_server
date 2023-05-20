@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -89,7 +90,12 @@ public class NewsController {
                 @RequestParam Integer perPage,
                 @RequestParam(required = false) String author,
                 @RequestParam(required = false) String keywords,
-                @RequestParam(required = false) String[] tags){
+                @RequestParam(required = false) String[] tags) {
         return ResponseEntity.ok(newsService.getFindNews(page, perPage, author, keywords, tags));
+    }
+
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity deleteNews(@PathVariable Long id) {
+        return ResponseEntity.ok(newsService.deleteNews(id));
     }
 }

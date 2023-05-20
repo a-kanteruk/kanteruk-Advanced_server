@@ -54,4 +54,5 @@ public interface ValidationConstants {
     String USER_NOT_FOUND = "Could not find user";
     String UNAUTHORISED = "unauthorised";
     String EXCEPTION_HANDLER_NOT_PROVIDED = "Exception handler not provided";
+    String NEWS_NOT_FOUND = "news not found";
 }

@@ -7,12 +7,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
 @Repository
 public interface NewsRepository extends JpaRepository<NewsEntity, Long> {
-    Page<NewsEntity> findAllByUserId(UUID userId, Pageable pageable);
+
+    @Query(value = "SELECT * FROM news n WHERE n.user_id = :userId", nativeQuery = true)
+    Page<NewsEntity> findAllByUserId(@Param("userId") UUID userId, Pageable pageable);
 
 }
