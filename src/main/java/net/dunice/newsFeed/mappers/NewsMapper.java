@@ -19,7 +19,7 @@ public interface NewsMapper {
             @Mapping(target = "tags", ignore = true),
             @Mapping(target = "title", source = "newsDto.title"),
             @Mapping(target = "user", ignore = true),
-            @Mapping(target = "username", ignore = true),
+            @Mapping(target = "username", ignore = true)
     })
     NewsEntity NewsDtoToNewsEntity(NewsDto newsDto);
 

@@ -1,7 +1,6 @@
 package net.dunice.newsFeed.models;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
