@@ -55,10 +55,8 @@ public class NewsController {
             @Positive(message = ValidationConstants.PAGE_SIZE_NOT_VALID)
             @Max(message = ValidationConstants.PER_PAGE_MAX_NOT_VALID, value = 1000)
             @Min(message = ValidationConstants.PER_PAGE_MIN_NOT_VALID, value = 1)
-            Integer perPage,
-            Authentication authentication) {
-        CustomUserDetails cud = (CustomUserDetails) authentication.getPrincipal();
-        return ResponseEntity.ok(newsService.getPaginatedNews(page, perPage, cud.getId()));
+            Integer perPage) {
+        return ResponseEntity.ok(newsService.getPaginatedNews(page, perPage));
     }
 
     @GetMapping(value = "/user/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)

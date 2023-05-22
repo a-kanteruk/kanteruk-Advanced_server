@@ -1,7 +1,6 @@
 package net.dunice.newsFeed.services;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -50,12 +49,12 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public CustomSuccessResponse<PageableResponse> getPaginatedNews(int page, int perPage, UUID userId) {
+    public CustomSuccessResponse<PageableResponse> getPaginatedNews(int page, int perPage) {
         Pageable pageable = PageRequest.of(page - 1, perPage);
         List<NewsEntity> listNewsEntity = newsRepository.findAll(pageable).getContent();
         List<GetNewsOutDto> listNewsDto = listNewsEntity.stream()
                 .map(newsEntity -> NewsMapper.INSTANCE.NewsEntityToGetNewsOutDto(newsEntity)
-                                .setUserId(userId)
+                                .setUserId(newsEntity.getUser().getId())
                                 .setTags(newsEntity.getTags().stream()
                                         .map(tag -> TagsMapper.INSTANCE.TagEntityToTag(tag))
                                         .collect(Collectors.toList())))
@@ -104,6 +103,9 @@ public class NewsServiceImpl implements NewsService {
     public BaseSuccessResponse changeNews(Long newsId, NewsDto newsDto) {
         NewsEntity newsEntity = newsRepository.findById(newsId)
                                             .orElseThrow(() -> new CustomException(ValidationConstants.NEWS_NOT_FOUND));
+        if (FilesServiceImpl.uploading == null) {
+            throw new CustomException(ValidationConstants.NEWS_IMAGE_HAS_TO_BE_PRESENT);
+        }
         newsRepository.save(newsEntity
                 .setDescription(newsDto.getDescription())
                 .setImage("" + FilesServiceImpl.uploading)

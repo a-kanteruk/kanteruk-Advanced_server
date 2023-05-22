@@ -13,14 +13,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.HandlerInterceptor;
 
 import static net.dunice.newsFeed.constants.EndpointConstants.*;
 
 @EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-        private final JwtTokenProvider jwtTokenProvider;
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements HandlerInterceptor {
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Bean
     @Override
