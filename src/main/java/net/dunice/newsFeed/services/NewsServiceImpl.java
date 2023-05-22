@@ -23,7 +23,6 @@ import net.dunice.newsFeed.responses.PageableResponse;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,8 +40,9 @@ public class NewsServiceImpl implements NewsService {
                                                         .setUsername(userEntity.getName())
                                                         .setImage("" + FilesServiceImpl.uploading);
         newsRepository.save(newsEntity);
-        List<TagEntity> tagList = newsDto.getTags().stream().map(tag -> new TagEntity().setTag(tag).setNews(newsEntity))
-                                                                                        .collect(Collectors.toList());
+        List<TagEntity> tagList = newsDto.getTags().stream()
+                                                    .map(tag -> new TagEntity().setTag(tag).setNews(newsEntity))
+                                                    .collect(Collectors.toList());
         newsEntity.setTags(tagList);
         newsRepository.save(newsEntity);
         return CreateNewsSuccessResponse.CreateNewsResponse(newsEntity.getId());
@@ -50,14 +50,15 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public CustomSuccessResponse<PageableResponse> getPaginatedNews(int page, int perPage) {
-        Pageable pageable = PageRequest.of(page - 1, perPage, Sort.by("id").descending());
+        Pageable pageable = PageRequest.of(page - 1, perPage);
         List<NewsEntity> listNewsEntity = newsRepository.findAll(pageable).getContent();
         List<GetNewsOutDto> listNewsDto = listNewsEntity.stream()
                 .map(newsEntity -> NewsMapper.INSTANCE.NewsEntityToGetNewsOutDto(newsEntity)
                                 .setUserId(newsEntity.getUser().getId())
                                 .setTags(newsEntity.getTags().stream()
-                                                     .map(tag -> TagsMapper.INSTANCE.TagEntityToTag(tag))
-                                                     .collect(Collectors.toList()))).collect(Collectors.toList());
+                                        .map(tag -> TagsMapper.INSTANCE.TagEntityToTag(tag))
+                                        .collect(Collectors.toList())))
+                .collect(Collectors.toList());
         Long numberOfElements = newsRepository.count();
         return CustomSuccessResponse.getSuccessResponse(PageableResponse.createPageableResponse(listNewsDto,
                                                                                                 numberOfElements));
@@ -72,10 +73,11 @@ public class NewsServiceImpl implements NewsService {
                         .setUserId(newsEntity.getUser().getId())
                         .setTags(newsEntity.getTags().stream()
                                 .map(tag -> TagsMapper.INSTANCE.TagEntityToTag(tag))
-                                .collect(Collectors.toList()))).collect(Collectors.toList());
-        Long numberOfElements = listNewsDto.stream().count();
+                                .collect(Collectors.toList())))
+                .collect(Collectors.toList());
+        Long numberOfElements = newsRepository.findAllByUserId(userId, pageable).getTotalElements();
         return CustomSuccessResponse.getSuccessResponse(PageableResponse.createPageableResponse(listNewsDto,
-                numberOfElements));
+                                                                                                numberOfElements));
     }
 
     @Override
@@ -98,8 +100,27 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
+    public BaseSuccessResponse changeNews(Long newsId, NewsDto newsDto) {
+        NewsEntity newsEntity = newsRepository.findById(newsId)
+                                            .orElseThrow(() -> new CustomException(ValidationConstants.NEWS_NOT_FOUND));
+        if (FilesServiceImpl.uploading == null) {
+            throw new CustomException(ValidationConstants.NEWS_IMAGE_HAS_TO_BE_PRESENT);
+        }
+        newsRepository.save(newsEntity
+                .setDescription(newsDto.getDescription())
+                .setImage("" + FilesServiceImpl.uploading)
+                .setTitle(newsDto.getTitle())
+                .setTags(newsDto.getTags().stream()
+                        .map(tag -> new TagEntity()
+                                .setTag(tag)
+                                .setNews(newsEntity))
+                        .collect(Collectors.toList())));
+        return BaseSuccessResponse.getSuccessResponse();
+    }
+
+    @Override
     public BaseSuccessResponse deleteNews(Long newsId) {
-        if (!newsRepository.existsById(newsId)){
+        if (!newsRepository.existsById(newsId)) {
             throw new CustomException(ValidationConstants.NEWS_NOT_FOUND);
         }
         newsRepository.deleteById(newsId);

@@ -13,12 +13,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.HandlerInterceptor;
+
+import static net.dunice.newsFeed.constants.EndpointConstants.*;
 
 @EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-        private final JwtTokenProvider jwtTokenProvider;
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements HandlerInterceptor {
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Bean
     @Override
@@ -32,16 +35,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http.httpBasic()
+    protected void configure(HttpSecurity http) throws Exception {
+        http.httpBasic()
                 .disable()
                 .csrf()
                 .disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests().anyRequest()
+                .authorizeRequests()
+                .antMatchers(USER_ENDPOINT,
+                        USER_ENDPOINT_REGISTRATION,
+                        NEWS_ENDPOINT,
+                        UPLOAD_FILE_ENDPOINT,
+                        LOAD_FILE_ENDPOINT)
                 .permitAll()
+                .anyRequest().authenticated()
                 .and().apply(new JwtConfigure(jwtTokenProvider));
     }
 }
