@@ -1,13 +1,14 @@
 package net.dunice.newsFeed.config;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import lombok.RequiredArgsConstructor;
 import net.dunice.newsFeed.models.LogEntity;
 import net.dunice.newsFeed.repository.LogRepository;
+
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @Component
 @RequiredArgsConstructor
