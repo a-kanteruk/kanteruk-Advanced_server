@@ -1,17 +1,16 @@
 package net.dunice.newsFeed.models;
 
-
-import lombok.Data;
-import lombok.experimental.Accessors;
-import org.hibernate.annotations.CreationTimestamp;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
+
+import lombok.Data;
+import lombok.experimental.Accessors;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Data
 @Entity
