@@ -5,9 +5,11 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 import net.dunice.newsFeed.constants.ValidationConstants;
 
 @Data
+@Accessors(chain = true)
 public class AuthDto {
     @NotBlank(message = ValidationConstants.USER_EMAIL_NOT_VALID)
     @Size(min = 3, max = 100, message = ValidationConstants.EMAIL_SIZE_NOT_VALID)
