@@ -53,7 +53,7 @@ public class AuthServiceImplTest {
     }
 
     @Test
-    void register() {
+    void TestMethod_register_UserServiceTest() {
         given(jwtTokenProvider.createToken(getRegisterDto().getEmail())).willReturn("token");
         given(userRepository.save(any())).willReturn(getUserEntity());
 
@@ -68,7 +68,7 @@ public class AuthServiceImplTest {
     }
 
     @Test
-    void login() {
+    void TestMethod_login_ReturnValueTest() {
         given(userRepository.findByEmail(any())).willReturn(Optional.ofNullable(getUserEntity()));
         given(jwtTokenProvider.createToken(any())).willReturn("token");
 
