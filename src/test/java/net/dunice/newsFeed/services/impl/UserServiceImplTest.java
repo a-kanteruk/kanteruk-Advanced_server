@@ -14,7 +14,6 @@ import net.dunice.newsFeed.responses.BaseSuccessResponse;
 import net.dunice.newsFeed.responses.CustomSuccessResponse;
 import net.dunice.newsFeed.services.UserService;
 import net.dunice.newsFeed.services.UserServiceImpl;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +24,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
@@ -45,7 +45,6 @@ public class UserServiceImplTest {
         BDDMockito.given(userRepository.findAllUsers()).willReturn(List.of(getPublicUserView(), getPublicUserView()));
         CustomSuccessResponse response = userService.getAllUsers();
         List<PublicUserView> list = (List<PublicUserView>) response.getData();
-
         Assertions.assertEquals(2, list.size());
     }
 
@@ -54,7 +53,6 @@ public class UserServiceImplTest {
         BDDMockito.given(userRepository.findById(Mockito.any())).willReturn(Optional.ofNullable(getUserEntity()));
         CustomSuccessResponse response = userService.getUserInfoById(UUID.randomUUID());
         PublicUserView data = (PublicUserView) response.getData();
-
         Assertions.assertEquals(getPublicUserView().getName(), data.getName());
         Assertions.assertEquals(getPublicUserView().getEmail(), data.getEmail());
         Assertions.assertEquals(getUserEntity().getAvatar(), data.getAvatar());
@@ -65,7 +63,6 @@ public class UserServiceImplTest {
         BDDMockito.given(userRepository.findById(Mockito.any())).willReturn(Optional.ofNullable(getUserEntity()));
         CustomSuccessResponse response = userService.getUserInfo(UUID.randomUUID());
         PublicUserView data = (PublicUserView) response.getData();
-
         Assertions.assertEquals(getPublicUserView().getName(), data.getName());
         Assertions.assertEquals(getPublicUserView().getEmail(), data.getEmail());
         Assertions.assertEquals(getUserEntity().getAvatar(), data.getAvatar());
@@ -76,7 +73,6 @@ public class UserServiceImplTest {
         BDDMockito.given(userRepository.findById(Mockito.any())).willReturn(Optional.ofNullable(getUserEntity()));
         CustomSuccessResponse response = userService.changeUser(UUID.randomUUID(), getPutUserDto());
         PutUserDtoResponse data = (PutUserDtoResponse) response.getData();
-
         Mockito.verify(userRepository, Mockito.times(1)).save(Mockito.any());
         Assertions.assertNotNull(data.getId());
         Assertions.assertEquals(getPutUserDto().getName(), data.getName());
@@ -87,7 +83,6 @@ public class UserServiceImplTest {
     void TestMethod_DeleteUser() {
         BDDMockito.given(userRepository.existsById(Mockito.any())).willReturn(true);
         BaseSuccessResponse response = userService.deleteUser(UUID.randomUUID());
-
         Mockito.verify(userRepository, Mockito.times(1)).deleteById(Mockito.any());
     }
 

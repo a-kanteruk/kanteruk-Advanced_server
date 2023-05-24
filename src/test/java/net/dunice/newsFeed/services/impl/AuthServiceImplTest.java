@@ -13,7 +13,6 @@ import net.dunice.newsFeed.responses.CustomSuccessResponse;
 import net.dunice.newsFeed.security.jwt.JwtTokenProvider;
 import net.dunice.newsFeed.services.AuthService;
 import net.dunice.newsFeed.services.AuthServiceImpl;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,6 +21,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -54,13 +54,11 @@ public class AuthServiceImplTest {
     }
 
     @Test
-    void TestMethod_register_UserServiceTest() {
+    void TestMethod_Register_UserServiceTest() {
         given(jwtTokenProvider.createToken(getRegisterDto().getEmail())).willReturn("token");
         given(userRepository.save(any())).willReturn(getUserEntity());
-
         CustomSuccessResponse response = authService.register(getRegisterDto());
         LoginUserDto answer = (LoginUserDto) response.getData();
-
         verify(userRepository, times(1)).save(any());
         Assertions.assertNotNull(answer.getId());
         Assertions.assertNotNull(answer.getToken());
@@ -69,13 +67,11 @@ public class AuthServiceImplTest {
     }
 
     @Test
-    void TestMethod_login_ReturnValueTest() {
+    void TestMethod_Login_ReturnValueTest() {
         given(userRepository.findByEmail(any())).willReturn(Optional.ofNullable(getUserEntity()));
         given(jwtTokenProvider.createToken(any())).willReturn("token");
-
         CustomSuccessResponse response = authService.login(getAuthDto());
         LoginUserDto answer = (LoginUserDto) response.getData();
-
         verify(authenticationManager, times(1)).authenticate(any());
         Assertions.assertNotNull(answer.getId());
         Assertions.assertNotNull(answer.getToken());

@@ -7,7 +7,6 @@ import java.io.IOException;
 import net.dunice.newsFeed.responses.CustomSuccessResponse;
 import net.dunice.newsFeed.services.FilesService;
 import net.dunice.newsFeed.services.FilesServiceImpl;
-
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.UrlResource;
 import org.springframework.mock.web.MockMultipartFile;
@@ -25,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 @MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
 public class FilesServiceImplTest {
-    FilesService filesService;
+    private FilesService filesService;
 
     @BeforeEach
     void setUp() {
@@ -33,17 +33,15 @@ public class FilesServiceImplTest {
     }
 
     @Test
-    void TestMethod_uploadFile() throws IOException {
-
+    void TestMethod_UploadFile() throws IOException {
         CustomSuccessResponse response = filesService.uploadFile(getNewFile());
         Assertions.assertNotNull(response.getData());
     }
 
     @Test
-    void TestMethod_loadFile_LoadFileFromTemp() throws IOException {
+    void TestMethod_LoadFile_LoadFileFromTemp() throws IOException {
         String pathFile = "temp/1bb9bfb1-49f2-4869-bb27-3f7ceeca9a45.jpeg";
         UrlResource resource = filesService.loadFile(pathFile);
-
         Assertions.assertNotNull(resource.getFile());
     }
 
