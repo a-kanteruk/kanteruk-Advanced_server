@@ -1,5 +1,8 @@
 package net.dunice.newsFeed.services.impl;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import net.dunice.newsFeed.dto.AuthDto;
 import net.dunice.newsFeed.dto.LoginUserDto;
 import net.dunice.newsFeed.dto.RegisterUserDto;
@@ -10,6 +13,7 @@ import net.dunice.newsFeed.responses.CustomSuccessResponse;
 import net.dunice.newsFeed.security.jwt.JwtTokenProvider;
 import net.dunice.newsFeed.services.AuthService;
 import net.dunice.newsFeed.services.AuthServiceImpl;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,9 +25,6 @@ import org.mockito.quality.Strictness;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.util.Optional;
-import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -82,19 +83,19 @@ public class AuthServiceImplTest {
         Assertions.assertEquals(getTrueAnswer().getAvatar(), answer.getAvatar());
     }
 
-    private AuthDto getAuthDto(){
+    private AuthDto getAuthDto() {
         return new AuthDto().setEmail(getTrueAnswer().getEmail())
                             .setPassword("123456");
     }
 
-    private LoginUserDto getTrueAnswer(){
+    private LoginUserDto getTrueAnswer() {
         return new LoginUserDto()
                 .setAvatar("image")
                 .setName("Garry")
                 .setRole(Role.USER.getAuthority())
                 .setEmail("mr.who@gmail.com");
     }
-    private RegisterUserDto getRegisterDto(){
+    private RegisterUserDto getRegisterDto() {
         return new RegisterUserDto()
                 .setAvatar("image")
                 .setName("Garry")
