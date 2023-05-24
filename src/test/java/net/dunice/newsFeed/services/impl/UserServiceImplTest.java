@@ -13,21 +13,22 @@ import net.dunice.newsFeed.repository.UserRepository;
 import net.dunice.newsFeed.responses.CustomSuccessResponse;
 import net.dunice.newsFeed.services.UserService;
 import net.dunice.newsFeed.services.UserServiceImpl;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.*;
+import static org.mockito.Mockito.times;
+
 @SpringBootTest
-@MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
 public class UserServiceImplTest {
     @Mock
@@ -41,38 +42,46 @@ public class UserServiceImplTest {
 
     @Test
     void TestMethod_GetAllUsers() {
-        BDDMockito.given(userRepository.findAllUsers()).willReturn(List.of(getPublicUserView(), getPublicUserView()));
+        given(userRepository.findAllUsers()).willReturn(List.of(getPublicUserView(), getPublicUserView()));
+
         CustomSuccessResponse response = userService.getAllUsers();
         List<PublicUserView> list = (List<PublicUserView>) response.getData();
-        Assertions.assertEquals(2, list.size());
+
+        assertEquals(2, list.size());
     }
 
     @Test
     void TestMethod_GetUserInfo() {
-        BDDMockito.given(userRepository.findById(Mockito.any())).willReturn(Optional.ofNullable(getUserEntity()));
+        given(userRepository.findById(any())).willReturn(Optional.ofNullable(getUserEntity()));
+
         CustomSuccessResponse response = userService.getUserInfo(UUID.randomUUID());
         PublicUserView data = (PublicUserView) response.getData();
-        Assertions.assertEquals(getPublicUserView().getName(), data.getName());
-        Assertions.assertEquals(getPublicUserView().getEmail(), data.getEmail());
-        Assertions.assertEquals(getUserEntity().getAvatar(), data.getAvatar());
+
+        assertEquals(getPublicUserView().getName(), data.getName());
+        assertEquals(getPublicUserView().getEmail(), data.getEmail());
+        assertEquals(getUserEntity().getAvatar(), data.getAvatar());
     }
 
     @Test
     void TestMethod_ChangeUser() {
-        BDDMockito.given(userRepository.findById(Mockito.any())).willReturn(Optional.ofNullable(getUserEntity()));
+        given(userRepository.findById(any())).willReturn(Optional.ofNullable(getUserEntity()));
+
         CustomSuccessResponse response = userService.changeUser(UUID.randomUUID(), getPutUserDto());
         PutUserDtoResponse data = (PutUserDtoResponse) response.getData();
-        Mockito.verify(userRepository, Mockito.times(1)).save(Mockito.any());
-        Assertions.assertNotNull(data.getId());
-        Assertions.assertEquals(getPutUserDto().getName(), data.getName());
-        Assertions.assertEquals(getPutUserDto().getEmail(), data.getEmail());
+
+        Mockito.verify(userRepository, times(1)).save(any());
+        assertNotNull(data.getId());
+        assertEquals(getPutUserDto().getName(), data.getName());
+        assertEquals(getPutUserDto().getEmail(), data.getEmail());
     }
 
     @Test
     void TestMethod_DeleteUser() {
-        BDDMockito.given(userRepository.existsById(Mockito.any())).willReturn(true);
+        given(userRepository.existsById(any())).willReturn(true);
+
         userService.deleteUser(UUID.randomUUID());
-        Mockito.verify(userRepository, Mockito.times(1)).deleteById(Mockito.any());
+
+        Mockito.verify(userRepository, times(1)).deleteById(any());
     }
 
     private PublicUserView getPublicUserView() {

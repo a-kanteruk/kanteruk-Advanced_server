@@ -19,8 +19,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,7 +30,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @SpringBootTest
-@MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
 public class AuthServiceImplTest {
     @Mock
@@ -57,8 +54,10 @@ public class AuthServiceImplTest {
     void TestMethod_Register_UserServiceTest() {
         given(jwtTokenProvider.createToken(getRegisterDto().getEmail())).willReturn("token");
         given(userRepository.save(any())).willReturn(getUserEntity());
+
         CustomSuccessResponse response = authService.register(getRegisterDto());
         LoginUserDto answer = (LoginUserDto) response.getData();
+
         verify(userRepository, times(1)).save(any());
         Assertions.assertNotNull(answer.getId());
         Assertions.assertNotNull(answer.getToken());
@@ -70,8 +69,10 @@ public class AuthServiceImplTest {
     void TestMethod_Login_ReturnValueTest() {
         given(userRepository.findByEmail(any())).willReturn(Optional.ofNullable(getUserEntity()));
         given(jwtTokenProvider.createToken(any())).willReturn("token");
+
         CustomSuccessResponse response = authService.login(getAuthDto());
         LoginUserDto answer = (LoginUserDto) response.getData();
+
         verify(authenticationManager, times(1)).authenticate(any());
         Assertions.assertNotNull(answer.getId());
         Assertions.assertNotNull(answer.getToken());

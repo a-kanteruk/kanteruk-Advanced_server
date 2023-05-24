@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class FilesServiceImpl implements FilesService {
-    @Value("${upload.path}")
     private String uploadPath = "/home/dunice/repository/newsFeed/temp/";
     @Value("${file.url}")
     private String fileUrl;

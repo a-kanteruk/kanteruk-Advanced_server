@@ -23,16 +23,11 @@ import net.dunice.newsFeed.services.FilesServiceImpl;
 import net.dunice.newsFeed.services.NewsService;
 import net.dunice.newsFeed.services.NewsServiceImpl;
 import org.apache.commons.io.IOUtils;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -41,8 +36,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.*;
+
 @SpringBootTest
-@MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
 public class NewsServiceImplTest {
     @Mock
@@ -51,68 +48,80 @@ public class NewsServiceImplTest {
     private NewsRepository newsRepository;
     private NewsService newsService;
     private FilesService filesService;
-    private Page<NewsEntity> newsList = new PageImpl<>(List.of(getNewsEntity(), getNewsEntity()));
+    private Page<NewsEntity> newsList;
 
     @BeforeEach
     void setUp() {
         newsService = new NewsServiceImpl(userRepository, newsRepository);
         filesService = new FilesServiceImpl();
+        newsList = new PageImpl<>(List.of(getNewsEntity(), getNewsEntity()));
     }
 
     @Test
     void TestMethod_CreateNews() {
-        BDDMockito.given(userRepository.findById(Mockito.any())).willReturn(Optional.ofNullable(getUserEntity()));
-        BDDMockito.given(newsRepository.save(Mockito.any())).willReturn(new NewsEntity());
+        given(userRepository.findById(any())).willReturn(Optional.ofNullable(getUserEntity()));
+        given(newsRepository.save(any())).willReturn(new NewsEntity());
+
         CreateNewsSuccessResponse response = newsService.createNews(getNewsDto(), getUserEntity().getId());
-        Mockito.verify(newsRepository, Mockito.times(2)).save(Mockito.any());
-        Assertions.assertNotNull(response);
+
+        verify(newsRepository, times(2)).save(any());
+        assertNotNull(response);
         System.out.println(response.getId());
     }
 
     @Test
     void TestMethod_GetPaginatedNews() {
-        BDDMockito.given(newsRepository.findAll(Mockito.any(Pageable.class))).willReturn(newsList);
-        BDDMockito.given(newsRepository.count()).willReturn(2L);
+        given(newsRepository.findAll(any(Pageable.class))).willReturn(newsList);
+        given(newsRepository.count()).willReturn(2L);
+
         CustomSuccessResponse response = newsService.getPaginatedNews(2, 2);
         PageableResponse data = (PageableResponse) response.getData();
-        Assertions.assertEquals(2L, data.getNumberOfElements());
-        Assertions.assertNotNull(data.getContent());
+
+        assertEquals(2L, data.getNumberOfElements());
+        assertNotNull(data.getContent());
     }
 
     @Test
     void TestMethod_GetPaginatedUserNews() {
-        BDDMockito.given(newsRepository.findAllByUserId(Mockito.any(), Mockito.any(Pageable.class)))
-                                                                                            .willReturn(newsList);
+        given(newsRepository.findAllByUserId(any(), any(Pageable.class))).willReturn(newsList);
+
         CustomSuccessResponse response = newsService.getPaginatedUserNews(2, 2, UUID.randomUUID());
         PageableResponse data = (PageableResponse) response.getData();
-        Assertions.assertEquals(2L, data.getNumberOfElements());
-        Assertions.assertNotNull(data.getContent().get(0).getUserId());
+
+        assertEquals(2L, data.getNumberOfElements());
+        assertNotNull(data.getContent().get(0).getUserId());
     }
 
     @Test
     void TestMethod_GetFindNews() {
         newsList.and(getNewsEntity().setDescription("Other"));
-        BDDMockito.given(newsRepository.findAll(Mockito.any(Pageable.class))).willReturn(newsList);
+        given(newsRepository.findAll(any(Pageable.class))).willReturn(newsList);
+
         PageableResponse response = newsService.getFindNews(2, 2, null, "Desc", null);
-        Assertions.assertEquals(2, response.getContent().size());
-        Assertions.assertEquals("Desc", response.getContent().get(0).getDescription());
+
+        assertEquals(2, response.getContent().size());
+        assertEquals("Desc", response.getContent().get(0).getDescription());
     }
 
     @Test
     void TestMethod_ChangeNews() throws IOException {
-        BDDMockito.given(newsRepository.findById(Mockito.any())).willReturn(Optional.ofNullable(getNewsEntity()));
-        BDDMockito.given(newsRepository.save(Mockito.any())).willReturn(getNewsEntity());
+        given(newsRepository.findById(any())).willReturn(Optional.ofNullable(getNewsEntity()));
+        given(newsRepository.save(any())).willReturn(getNewsEntity());
+
         filesService.uploadFile(getNewFile());
         BaseSuccessResponse response = newsService.changeNews(1L, getNewsDto());
-        Assertions.assertNotNull(response);
+
+        assertNotNull(response);
     }
 
     @Test
     void TestMethod_DeleteNews() {
-        BDDMockito.given(newsRepository.existsById(Mockito.any())).willReturn(true);
+        given(newsRepository.existsById(any())).willReturn(true);
+
         BaseSuccessResponse response = newsService.deleteNews(1L);
-        Assertions.assertEquals(1, response.getStatusCode());
-        Mockito.verify(newsRepository, Mockito.times(1)).deleteById(Mockito.any());
+
+        assertEquals(1, response.getStatusCode());
+        verify(newsRepository, times(1)).deleteById(any());
     }
 
     private NewsDto getNewsDto() {
