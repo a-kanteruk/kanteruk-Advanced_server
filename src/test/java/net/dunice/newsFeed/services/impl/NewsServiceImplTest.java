@@ -58,7 +58,7 @@ public class NewsServiceImplTest {
     }
 
     @Test
-    void TestMethod_CreateNews() {
+    void createNewsTest() {
         given(userRepository.findById(any())).willReturn(Optional.ofNullable(getUserEntity()));
         given(newsRepository.save(any())).willReturn(new NewsEntity());
 
@@ -70,7 +70,7 @@ public class NewsServiceImplTest {
     }
 
     @Test
-    void TestMethod_GetPaginatedNews() {
+    void correctGetPaginatedNewsTest() {
         given(newsRepository.findAll(any(Pageable.class))).willReturn(newsList);
         given(newsRepository.count()).willReturn(2L);
 
@@ -82,7 +82,7 @@ public class NewsServiceImplTest {
     }
 
     @Test
-    void TestMethod_GetPaginatedUserNews() {
+    void correctGetPaginatedUserNewsTest() {
         given(newsRepository.findAllByUserId(any(), any(Pageable.class))).willReturn(newsList);
 
         CustomSuccessResponse response = newsService.getPaginatedUserNews(2, 2, UUID.randomUUID());
@@ -93,7 +93,7 @@ public class NewsServiceImplTest {
     }
 
     @Test
-    void TestMethod_GetFindNews() {
+    void correctGetFindNewsTest() {
         newsList.and(getNewsEntity().setDescription("Other"));
         given(newsRepository.findAll(any(Pageable.class))).willReturn(newsList);
 
@@ -104,7 +104,7 @@ public class NewsServiceImplTest {
     }
 
     @Test
-    void TestMethod_ChangeNews() throws IOException {
+    void changeNewsTest() throws IOException {
         given(newsRepository.findById(any())).willReturn(Optional.ofNullable(getNewsEntity()));
         given(newsRepository.save(any())).willReturn(getNewsEntity());
 
@@ -115,7 +115,7 @@ public class NewsServiceImplTest {
     }
 
     @Test
-    void TestMethod_DeleteNews() {
+    void correctDeleteNewsTest() {
         given(newsRepository.existsById(any())).willReturn(true);
 
         BaseSuccessResponse response = newsService.deleteNews(1L);

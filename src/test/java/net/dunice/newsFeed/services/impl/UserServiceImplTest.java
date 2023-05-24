@@ -41,7 +41,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void TestMethod_GetAllUsers() {
+    void getAllUsersTest() {
         given(userRepository.findAllUsers()).willReturn(List.of(getPublicUserView(), getPublicUserView()));
 
         CustomSuccessResponse response = userService.getAllUsers();
@@ -51,7 +51,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void TestMethod_GetUserInfo() {
+    void correctGetUserInfoTest() {
         given(userRepository.findById(any())).willReturn(Optional.ofNullable(getUserEntity()));
 
         CustomSuccessResponse response = userService.getUserInfo(UUID.randomUUID());
@@ -63,7 +63,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void TestMethod_ChangeUser() {
+    void correctChangeUserTest() {
         given(userRepository.findById(any())).willReturn(Optional.ofNullable(getUserEntity()));
 
         CustomSuccessResponse response = userService.changeUser(UUID.randomUUID(), getPutUserDto());
@@ -76,7 +76,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void TestMethod_DeleteUser() {
+    void deleteUserTest() {
         given(userRepository.existsById(any())).willReturn(true);
 
         userService.deleteUser(UUID.randomUUID());

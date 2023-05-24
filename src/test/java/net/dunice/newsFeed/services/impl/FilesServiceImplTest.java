@@ -31,14 +31,14 @@ public class FilesServiceImplTest {
     }
 
     @Test
-    void TestMethod_UploadFile() throws IOException {
+    void uploadFileTest() throws IOException {
         CustomSuccessResponse response = filesService.uploadFile(getNewFile());
 
         assertNotNull(response.getData());
     }
 
     @Test
-    void TestMethod_LoadFile_LoadFileFromTemp() throws IOException {
+    void loadFileTest() throws IOException {
         String pathFile = "temp/1bb9bfb1-49f2-4869-bb27-3f7ceeca9a45.jpeg";
         UrlResource resource = filesService.loadFile(pathFile);
 
