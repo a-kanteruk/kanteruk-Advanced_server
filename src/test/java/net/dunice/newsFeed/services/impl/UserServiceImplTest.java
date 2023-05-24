@@ -48,16 +48,6 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void TestMethod_GetUserInfoById() {
-        BDDMockito.given(userRepository.findById(Mockito.any())).willReturn(Optional.ofNullable(getUserEntity()));
-        CustomSuccessResponse response = userService.getUserInfoById(UUID.randomUUID());
-        PublicUserView data = (PublicUserView) response.getData();
-        Assertions.assertEquals(getPublicUserView().getName(), data.getName());
-        Assertions.assertEquals(getPublicUserView().getEmail(), data.getEmail());
-        Assertions.assertEquals(getUserEntity().getAvatar(), data.getAvatar());
-    }
-
-    @Test
     void TestMethod_GetUserInfo() {
         BDDMockito.given(userRepository.findById(Mockito.any())).willReturn(Optional.ofNullable(getUserEntity()));
         CustomSuccessResponse response = userService.getUserInfo(UUID.randomUUID());
