@@ -40,7 +40,7 @@ public class UserController {
     @GetMapping(value = "/{stringId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getUserInfoById(@PathVariable @Length(min = 36, max = 36,
                                             message = ValidationConstants.MAX_UPLOAD_SIZE_EXCEEDED) String stringId) {
-        return ResponseEntity.ok(userService.getUserInfoById(UUID.fromString(stringId)));
+        return ResponseEntity.ok(userService.getUserInfo(UUID.fromString(stringId)));
     }
 
     @GetMapping(value = "/info", produces = MediaType.APPLICATION_JSON_VALUE)

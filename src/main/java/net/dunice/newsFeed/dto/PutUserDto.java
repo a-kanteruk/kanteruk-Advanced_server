@@ -6,9 +6,11 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 import net.dunice.newsFeed.constants.ValidationConstants;
 
 @Data
+@Accessors(chain = true)
 public class PutUserDto {
     @NotNull(message = ValidationConstants.USER_AVATAR_NOT_NULL)
 	private String avatar;
