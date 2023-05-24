@@ -12,10 +12,7 @@ import net.dunice.newsFeed.models.UserEntity;
 import net.dunice.newsFeed.repository.UserRepository;
 import net.dunice.newsFeed.responses.BaseSuccessResponse;
 import net.dunice.newsFeed.responses.CustomSuccessResponse;
-import net.dunice.newsFeed.security.jwt.JwtTokenProvider;
 
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,15 +24,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public CustomSuccessResponse getAllUsers() {
         return CustomSuccessResponse.getSuccessResponse(userRepository.findAllUsers());
-    }
-
-    @Override
-    public CustomSuccessResponse getUserInfoById(UUID id) {
-        PublicUserView user = UserMapper.INSTANCE
-                                .UserEntityToPublicUserView(userRepository
-                                        .findById(id)
-                                        .orElseThrow(() -> new CustomException(ValidationConstants.USER_NOT_FOUND)));
-        return CustomSuccessResponse.getSuccessResponse(user);
     }
 
     @Override

@@ -10,7 +10,6 @@ import net.dunice.newsFeed.dto.PutUserDtoResponse;
 import net.dunice.newsFeed.models.Role;
 import net.dunice.newsFeed.models.UserEntity;
 import net.dunice.newsFeed.repository.UserRepository;
-import net.dunice.newsFeed.responses.BaseSuccessResponse;
 import net.dunice.newsFeed.responses.CustomSuccessResponse;
 import net.dunice.newsFeed.services.UserService;
 import net.dunice.newsFeed.services.UserServiceImpl;
@@ -82,7 +81,7 @@ public class UserServiceImplTest {
     @Test
     void TestMethod_DeleteUser() {
         BDDMockito.given(userRepository.existsById(Mockito.any())).willReturn(true);
-        BaseSuccessResponse response = userService.deleteUser(UUID.randomUUID());
+        userService.deleteUser(UUID.randomUUID());
         Mockito.verify(userRepository, Mockito.times(1)).deleteById(Mockito.any());
     }
 
